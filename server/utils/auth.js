@@ -1,5 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 
+//Sending Refresh Token in cookie
 export async function sendRefreshToken(res, token) {
   res.cookie("jid", token, {
     httpOnly: true,

@@ -28,6 +28,7 @@
     "apollo-server-core": "^3.6.4",
     "apollo-server-express": "^3.6.4",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.28.1",
     "consola": "^2.15.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
