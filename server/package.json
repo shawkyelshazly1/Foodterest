@@ -1,0 +1,44 @@
+{
+  "name": "foodterest",
+  "version": "1.0.0",
+  "description": "A pinterest clone but for you favourite food recipies",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "devstart": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawkyelshazly1/Foodterest.git"
+  },
+  "keywords": [
+    "pinterest",
+    "Images",
+    "sharing",
+    "food",
+    "recipies"
+  ],
+  "author": "Elshazlii",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shawkyelshazly1/Foodterest/issues"
+  },
+  "homepage": "https://github.com/shawkyelshazly1/Foodterest#readme",
+  "dependencies": {
+    "apollo-server-core": "^3.6.4",
+    "apollo-server-express": "^3.6.4",
+    "bcryptjs": "^2.4.3",
+    "consola": "^2.15.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "graphql": "^16.3.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
