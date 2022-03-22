@@ -4,3 +4,26 @@
 
 /* Importing google fonts  */
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.gridlist {
+  width: 100%;
+  columns: 5;
+  column-gap: 2rem;
+  padding: 2rem;
+}
+.card {
+  width: 100%;
+  margin: 0 0 40px;
+  /* padding: 10px; */
+  overflow: hidden;
+}
+
+.MediaCard {
+  max-width: 100%;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}

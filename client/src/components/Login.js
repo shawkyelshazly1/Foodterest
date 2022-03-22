@@ -4,11 +4,12 @@ import { CURRENT_USER, LOGIN_USER } from "../graphql/user";
 import FormErrors from "./reusable/FormErrors";
 import LoadingComponent from "./reusable/LoadingComponent";
 import { setAccessToken } from "../utils/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Login() {
-  // useNavigate API
+  // useNavigate & useLocation APIs
   const navigate = useNavigate();
+  const location = useLocation();
 
   // formData state holder
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -34,7 +35,13 @@ export default function Login() {
         query: CURRENT_USER,
         data: { currentUser: data.login.user },
       });
-      navigate("/");
+
+      // Navigating user back to previous URL
+      if (location.pathname !== "/") {
+        navigate(location.pathname);
+      } else {
+        navigate("/");
+      }
     },
   });
 

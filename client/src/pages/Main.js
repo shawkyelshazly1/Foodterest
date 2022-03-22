@@ -1,24 +1,28 @@
+import React from "react";
+import PostCard from "../components/PostCard";
 import { useQuery } from "@apollo/client";
-import React, { useState } from "react";
+import { GET_POSTS } from "../graphql/posts";
 import LoadingComponent from "../components/reusable/LoadingComponent";
-import { CURRENT_USER } from "../graphql/user";
-import AuthPage from "./AuthPage";
-import PrivateRouter from "./PrivateRouter";
 
 export default function Main() {
-  // Fetchin current user to stay up to date and share authentication state
-  const { data, loading, error } = useQuery(CURRENT_USER, {
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, loading, error } = useQuery(GET_POSTS);
 
-  if (loading)
+  if (loading) {
+    return <LoadingComponent />;
+  }
+
+  if (!loading && !data)
     return (
-      <div className="flex flex-1 items-center">
-        s
-        <LoadingComponent />
+      <div className="customContainer  px-10 pt-2 pb-4">
+        Sorry Nothing to see here!
       </div>
     );
 
-  if (!data) return <AuthPage />;
-  else return <PrivateRouter />;
+  return (
+    <div className="gridlist">
+      {data.getPosts.map((post) => (
+        <PostCard key={post.id} post={post} />
+      ))}
+    </div>
+  );
 }

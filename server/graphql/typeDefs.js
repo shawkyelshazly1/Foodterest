@@ -51,6 +51,7 @@ const typeDefs = gql`
       password: String!
       confirmPassword: String!
     ): Boolean!
+    logout: Boolean!
 
     # Post Mutations
     createPost(image: String!, title: String!): Post!

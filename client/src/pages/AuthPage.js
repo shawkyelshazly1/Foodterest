@@ -23,7 +23,11 @@ export default function AuthPage() {
 
         <div className="bg-white  rounded-2xl w-[500px] ">
           <div className="flex flex-col gap-3 items-center pb-14  mx-auto w-full ">
-            <img src="logo_transparent.png" alt="asd" className=" w-44 py-3" />
+            <img
+              src="https://res.cloudinary.com/dwufx31ox/image/upload/v1647960558/Foodterest/logo_transparent_kvapzz.png"
+              alt="asd"
+              className=" w-44 py-3"
+            />
             <h3 className="font-Roboto text-3xl font-semibold text-gray-700  text-center">
               Welcome to Foodterest
             </h3>

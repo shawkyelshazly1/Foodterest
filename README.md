@@ -33,10 +33,10 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [x] _Init React Project_
   - [x] _Add Tailwind Css support_
   - [x] _Register & Login Mechanism_
-  - [ ] _Navbar with global authentication state_
-  - [ ] _Public & Private routes_
-  - [ ] _Masonary feed style_
-  - [ ] _Retrieve Feed_
+  - [x] _Navbar with global authentication state_
+  - [x] _Public & Private routes_
+  - [x] _Masonary feed style_ "Needs Fixing"
+  - [x] _Retrieve Feed_
   - [ ] _Styled upload input with drag & drop_
   - [ ] _Post new pin_
   - [ ] _Likes Count & Like Mechanism_
@@ -51,3 +51,11 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 - [ ] _Save Pins_
 - [ ] _Categories & keywords_
 - [ ] _Realtime notification support_
+
+### Bugs" 🐞
+
+- **FrontEnd**
+
+- [ ] _Private Routing doesn't change URL if rendering AuthPage_
+- [ ] _Clicking outside doesn't close User dropdown menu_
+- [ ] _Fix Masonry layout in HomePage_

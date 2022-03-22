@@ -52,3 +52,9 @@ exports.CURRENT_USER = gql`
     }
   }
 `;
+
+exports.LOGOUT_USER = gql`
+  mutation LogoutUser {
+    logout
+  }
+`;

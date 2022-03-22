@@ -88,6 +88,12 @@ const authResolver = {
 
       return true;
     },
+
+    // User logout Mutation
+    async logout(_, __, { req, res }) {
+      sendRefreshToken(res, "");
+      return true;
+    },
   },
 };
 
