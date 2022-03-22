@@ -6,6 +6,7 @@ import User from "../../models/user.js";
 import PostLike from "../../models/postLike.js";
 import Comment from "../../models/comment.js";
 import Post from "../../models/post.js";
+import userResolver from "./user.js";
 
 const resolvers = {
   Post: {
@@ -59,6 +60,7 @@ const resolvers = {
       return "Hello from GraphQL";
     },
     ...postResolver.Query,
+    ...userResolver.Query,
   },
 
   Mutation: {

@@ -7,6 +7,7 @@ const typeDefs = gql`
     firstName: String!
     lastName: String!
     avatar: String!
+    email: String!
     posts: [Post!]
   }
 
@@ -36,6 +37,7 @@ const typeDefs = gql`
     hello: String!
     getPost(postId: ID!): Post!
     getPosts: [Post!]
+    currentUser: User!
   }
 
   type Mutation {

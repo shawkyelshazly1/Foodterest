@@ -57,10 +57,20 @@ const authResolver = {
       });
 
       // checking if user exists already in DB or not
-      const user = await User.findOne({ $or: [{ email }, { username }] });
 
-      if (user) {
-        throw new UserInputError("Email or Username are taken!");
+      const userFoundEmail = await User.findOne({ email });
+
+      if (userFoundEmail) {
+        throw new UserInputError("Email is taken!", {
+          field: "email",
+        });
+      } else {
+        const userFoundUsername = await User.findOne({ username });
+        if (userFoundUsername) {
+          throw new UserInputError(" Username is taken!", {
+            field: "username",
+          });
+        }
       }
 
       // Hashing password and creating/saving new user in DB

@@ -43,7 +43,7 @@ dotenv.config();
   await server.start();
 
   // Adding express app as middle ware for Apollo server
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ app, cors: false });
 
   //   Starting Mongoose Connection
   mongoose

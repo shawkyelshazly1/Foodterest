@@ -27,7 +27,7 @@ const validationSchemas = {
       .required()
       .pattern(new RegExp("^[a-zA-Z0-9]{6,30}$"))
       .message(
-        "Password must be between 6 & 30. and shou;d contain numbers & letters"
+        "Password must be between 6 & 30. and should contain numbers & letters"
       ),
     confirmPassword: Joi.ref("password"),
   }).with("password", "confirmPassword"),

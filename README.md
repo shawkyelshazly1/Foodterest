@@ -22,11 +22,11 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 
 - **Backend**
 
-  - [ ] _Setup Express Server_
-  - [ ] _Setup Apollo Server_
-  - [ ] _Setup GraphQL_
-  - [ ] _Init GraphQL Schema & Types_
-  - [ ] _Authentication lifeCycle_
+  - [x] _Setup Express Server_
+  - [x] _Setup Apollo Server_
+  - [x] _Setup GraphQL_
+  - [x] _Init GraphQL Schema & Types_
+  - [x] _Authentication lifeCycle_
   - [ ] _Model related deletion_
 
 - **FrontEnd**
@@ -41,8 +41,6 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [ ] _Post new pin_
   - [ ] _Likes Count & Like Mechanism_
   - [ ] _Post comments section & add comment mechanism_
-
-#
 
 #
 
