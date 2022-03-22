@@ -30,9 +30,9 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [ ] _Model related deletion_
 
 - **FrontEnd**
-  - [ ] _Init React Project_
-  - [ ] _Add Tailwind Css support_
-  - [ ] _Register & Login Mechanism_
+  - [x] _Init React Project_
+  - [x] _Add Tailwind Css support_
+  - [x] _Register & Login Mechanism_
   - [ ] _Navbar with global authentication state_
   - [ ] _Public & Private routes_
   - [ ] _Masonary feed style_
