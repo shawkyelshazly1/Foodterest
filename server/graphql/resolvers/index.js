@@ -61,6 +61,7 @@ const resolvers = {
     },
     ...postResolver.Query,
     ...userResolver.Query,
+    ...commentResolver.Query,
   },
 
   Mutation: {

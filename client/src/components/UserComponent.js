@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGOUT_USER } from "../graphql/user";
 import { setAccessToken } from "../utils/auth";
+import { capitalize } from "underscore.string";
 
 export default function UserComponent({ currentUser }) {
   const navigate = useNavigate();
@@ -61,7 +62,8 @@ export default function UserComponent({ currentUser }) {
             />
             <div className="flex flex-col ">
               <p className="font-bold text-lg">
-                {currentUser.firstName} {currentUser.lastName}
+                {capitalize(currentUser.firstName)}{" "}
+                {capitalize(currentUser.lastName)}
               </p>
               <p className="text-gray-500">{currentUser.email}</p>
             </div>

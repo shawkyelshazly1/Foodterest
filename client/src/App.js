@@ -19,11 +19,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex flex-1 items-center">
-        <LoadingComponent />
-      </div>
-    );
+    return null;
   }
 
   return <RoutesProvider />;

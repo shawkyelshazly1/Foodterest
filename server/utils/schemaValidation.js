@@ -48,8 +48,8 @@ const validationSchemas = {
   postSchema: Joi.object({
     title: Joi.string()
       .required()
-
-      .min(5)
+      .empty()
+      .min(1)
       .max(40)
       .message("Title shouldn't be empty, and should be within 5 & 40 chars."),
   }),
@@ -58,9 +58,9 @@ const validationSchemas = {
     content: Joi.string()
       .required()
       .min(1)
-      .max(40)
+
       .message(
-        "Comment shouldn't be empty, and should be within 1 & 40 chars."
+        "Comment shouldn't be empty, and should be within 1 & unlimited chars."
       ),
   }),
 };

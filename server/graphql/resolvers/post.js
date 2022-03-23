@@ -26,7 +26,7 @@ const postResolver = {
     async getPosts(_, __, ctx) {
       await isAuthenticated(ctx);
       try {
-        const posts = await Post.find({});
+        const posts = await Post.find({}).sort({ createdAt: -1 });
         return posts;
       } catch (error) {
         consola.error(error);
@@ -78,8 +78,6 @@ const postResolver = {
       if (!postFound) {
         throw new UserInputError("Post not Found");
       }
-      console.log(userId);
-      console.log(postFound.authorId.toString());
       if (postFound.authorId.toString() !== userId) {
         throw new AuthenticationError("Not Authorized.");
       }

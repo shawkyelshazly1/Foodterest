@@ -38,6 +38,7 @@ const typeDefs = gql`
     getPost(postId: ID!): Post!
     getPosts: [Post!]
     currentUser: User!
+    getPostComments(postId: ID!): [Comment!]
   }
 
   type Mutation {

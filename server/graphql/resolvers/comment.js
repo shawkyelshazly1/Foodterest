@@ -6,6 +6,33 @@ import Comment from "../../models/comment.js";
 import { validateCommentInput } from "../../utils/validation.js";
 
 const commentResolver = {
+  Query: {
+    //Load post comments
+    async getPostComments(_, { postId }, ctx) {
+      // Authentication middleware
+      await isAuthenticated(ctx);
+
+      let postFound = "";
+      try {
+        postFound = await Post.findById(postId);
+      } catch (error) {
+        consola.error(error);
+        throw new Error("Something went Wrong");
+      }
+
+      if (!postFound) {
+        throw new UserInputError("Post not found");
+      }
+
+      try {
+        const comments = await Comment.find({ postId }).sort({ createdAt: -1 });
+        return comments;
+      } catch (error) {
+        consola.error(error);
+        throw new Error("Something Went Wrong.");
+      }
+    },
+  },
   Mutation: {
     // add comment mutation
     async addComment(_, { postId, content }, ctx) {
@@ -35,7 +62,7 @@ const commentResolver = {
 
         return await newComment.save();
       } catch (error) {
-        console.error(error);
+        consola.error(error);
         throw new Error("Something Went Wrong.");
       }
     },

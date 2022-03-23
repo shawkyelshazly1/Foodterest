@@ -37,10 +37,12 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [x] _Public & Private routes_
   - [x] _Masonary feed style_ "Needs Fixing"
   - [x] _Retrieve Feed_
-  - [ ] _Styled upload input with drag & drop_
-  - [ ] _Post new pin_
-  - [ ] _Likes Count & Like Mechanism_
-  - [ ] _Post comments section & add comment mechanism_
+  - [x] _Styled upload input with drag & drop_
+  - [x] _Post new pin_
+  - [x] _Likes Count & Like Mechanism_
+  - [x] _Post Page_
+  - [ ] _Profile Page_
+  - [x] _Post comments section & add comment mechanism_
 
 #
 
@@ -54,8 +56,14 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 
 ### Bugs" 🐞
 
-- **FrontEnd**
+- **Frontend**
 
-- [ ] _Private Routing doesn't change URL if rendering AuthPage_
+- [x] _Private Routing doesn't change URL if rendering AuthPage_
+- [x] _Input drag & drop shows issue with drop as empty name in form_
 - [ ] _Clicking outside doesn't close User dropdown menu_
 - [ ] _Fix Masonry layout in HomePage_
+- [ ] _Fix PostCard nested Link with overlay links_
+
+- **Backend**
+
+- [ ] _Cache not update after creating new post, currently force refretching of getPosts_

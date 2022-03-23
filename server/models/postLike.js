@@ -5,7 +5,7 @@ const postLikeSchema = mongoose.Schema(
     postId: { type: mongoose.SchemaTypes.ObjectId, reuired: true },
     authorId: { type: mongoose.SchemaTypes.ObjectId, required: true },
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
 const PostLike = mongoose.model("PostLike", postLikeSchema);

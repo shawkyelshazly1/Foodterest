@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
     },
     tokenVersion: { type: Number, required: true, default: 0 },
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
 //TODO: Create function on delete to delete all user interactions from other models

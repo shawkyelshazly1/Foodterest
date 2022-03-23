@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,7 +9,8 @@ import PrivateRouter from "./pages/PrivateRouter";
 import Main from "./pages/Main";
 import PostPage from "./pages/PostPage";
 import Profile from "./pages/Profile";
-import Navbar from "./components/Navbar";
+import CreatePost from "./pages/CreatePost";
+import NotFound from "./pages/NotFound";
 
 export default function RoutesProvider() {
   return (
@@ -24,14 +25,15 @@ export default function RoutesProvider() {
                 <PrivateRouter>
                   <Routes>
                     <Route path="/" element={<Main />} />
-                    <Route path="/post/:postId" element={<PostPage />} />
+                    <Route path="/posts/:postId" element={<PostPage />} />
                     <Route path="/profile/:userId" element={<Profile />} />
+                    <Route path="/create-post" element={<CreatePost />} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </PrivateRouter>
               </>
             }
           />
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </div>
     </Router>

@@ -17,6 +17,8 @@ dotenv.config();
   // Initializing the express App instance
   const app = express();
 
+  app.use(express.json({ limit: "50mb" }));
+
   // Setting Cors & CookieParser
   app.use(
     cors({
