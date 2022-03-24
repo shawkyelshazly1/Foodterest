@@ -5,11 +5,12 @@ exports.ADD_COMMENT = gql`
     addComment(postId: $postId, content: $content) {
       id
       content
+      postId
       author {
         id
-        avatar
         firstName
         lastName
+        avatar
         username
       }
     }
@@ -21,6 +22,7 @@ exports.GET_POST_COMMENTS = gql`
     getPostComments(postId: $postId) {
       id
       content
+      postId
       author {
         id
         firstName
@@ -28,6 +30,14 @@ exports.GET_POST_COMMENTS = gql`
         avatar
         username
       }
+    }
+  }
+`;
+
+exports.DELETE_COMMENT = gql`
+  mutation DeleteComment($commentId: ID!) {
+    deleteComment(commentId: $commentId) {
+      id
     }
   }
 `;

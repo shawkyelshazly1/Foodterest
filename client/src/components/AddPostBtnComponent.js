@@ -7,7 +7,7 @@ export default function AddPostBtnComponent() {
   const navigate = useNavigate();
   return (
     <div
-      className="fixed bottom-6 right-6 bg-[#fff] rounded-full p-4 cursor-pointer hover:bg-gray-200"
+      className="fixed bottom-6 right-6 bg-[#fff] rounded-full p-4 cursor-pointer hover:bg-gray-200 z-50"
       onClick={() => {
         navigate("/create-post");
       }}

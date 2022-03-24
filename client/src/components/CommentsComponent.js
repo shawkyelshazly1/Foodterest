@@ -4,7 +4,7 @@ import { CURRENT_USER } from "../graphql/user";
 import { ADD_COMMENT, GET_POST_COMMENTS } from "../graphql/comment";
 import { useNavigate } from "react-router-dom";
 import LoadingComponent from "./reusable/LoadingComponent";
-import CommentComponent from "./reusable/CommentComponent";
+import CommentComponent from "./CommentComponent";
 
 export default function CommentsComponent({ postId }) {
   const navigate = useNavigate();
@@ -26,10 +26,30 @@ export default function CommentsComponent({ postId }) {
     onError(error) {
       navigate("/404");
     },
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: "network-only",
+    nextFetchPolicy: "cache-first",
   });
 
-  const [addComment, { data, loading, error }] = useMutation(ADD_COMMENT);
+  const [addComment, { data, loading, error, client }] = useMutation(
+    ADD_COMMENT,
+    {
+      onCompleted(data) {
+        if (data.addComment) {
+          let commentAdded = data.addComment;
+
+          client.cache.updateQuery(
+            {
+              query: GET_POST_COMMENTS,
+              variables: { postId: postId },
+            },
+            (data) => ({
+              getPostComments: [commentAdded, ...data.getPostComments],
+            })
+          );
+        }
+      },
+    }
+  );
 
   const autoGrow = (elem) => {
     setComment(elem.target.innerText);
@@ -45,11 +65,20 @@ export default function CommentsComponent({ postId }) {
       setComment("");
       document.getElementById("commentInput").innerText = "";
     }
+
+    // const { getPostComments } = client.readQuery({
+    //   query: GET_POST_COMMENTS,
+    //   variables: {
+    //     postId: "",
+    //   },
+    // });
+
+    // console.log(getPostComments);
   };
 
   return (
     <div className="flex flex-col gap-4 min-h-full">
-      {loadingComments ? (
+      {loadingComments && !postCommnets ? (
         <LoadingComponent />
       ) : postCommnets.getPostComments ? (
         postCommnets.getPostComments.map((comment) => (

@@ -4,11 +4,24 @@ import { capitalize } from "underscore.string";
 import HeartFilledComponent from "./reusable/HeartFilledComponent";
 import HeartUnfilledComponent from "./reusable/HeartUnfilledComponent";
 import CommentFilledComponent from "./reusable/CommentFilledComponent";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { LIKE_POST } from "../graphql/posts";
+import { useNavigate } from "react-router-dom";
+import EditPost from "./EditPost";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { CURRENT_USER } from "../graphql/user";
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, handleEditModal }) {
   const [showOverlay, setShowOverlay] = useState("hidden");
+  const navigate = useNavigate();
+
+  // Loading current use from cached data
+  const {
+    data: { currentUser },
+  } = useQuery(CURRENT_USER, {
+    fetchPolicy: "cache-only",
+  });
 
   const [likePost] = useMutation(LIKE_POST);
 
@@ -20,25 +33,36 @@ export default function PostCard({ post }) {
     });
   };
 
+  const openEditModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleEditModal(post);
+  };
+
+  const goUserProfile = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`profile/${post.author.username}`);
+  };
+
   return (
-    <Link to={`/posts/${post.id}`} className="cursor-default">
+    <>
       <div
-        className=" card rounded-2xl relative"
+        onClick={() => {
+          navigate(`/posts/${post.id}`);
+        }}
+        className=" rounded-2xl relative w-full my-4  bg-gray-50 "
         onMouseEnter={() => {
           setShowOverlay("");
         }}
         onMouseLeave={() => setShowOverlay("hidden")}
       >
-        <img
-          className="MediaCard rounded-2xl w-full h-full"
-          src={post.image}
-          alt=""
-        />
+        <img className="MediaCard rounded-2xl w-full" src={post.image} alt="" />
         <div
-          className={` ${showOverlay} absolute w-full h-full  z-20 bg-black opacity-70 top-0 left-0 flex flex-col p-3`}
+          className={` ${showOverlay} absolute w-full h-full rounded-2xl  z-20 bg-black opacity-30 top-0 left-0 flex flex-col p-3`}
         ></div>
         <div
-          className={` ${showOverlay} absolute w-full h-full  z-30 top-0 left-0 flex flex-col p-3 pl-4  `}
+          className={` ${showOverlay} absolute w-full h-full  rounded-2xl z-30 top-0 left-0 flex flex-col p-3 pl-4  `}
         >
           <div className="flex flex-col gap-1">
             <h1 className="  text-lg text-white font-bold pt-2 ">
@@ -46,7 +70,7 @@ export default function PostCard({ post }) {
             </h1>
             <div className="flex flex-row gap-3 pl-1 items-center">
               {post.liked ? (
-                <div className="flex flex-row items-center gap-1">
+                <div className="flex f</div>lex-row items-center gap-1">
                   <HeartFilledComponent size="xl" onClick={HandleLike} />
                   <p className="text-white font-Roboto font-medium text-lg">
                     {post.likesCount}
@@ -68,9 +92,13 @@ export default function PostCard({ post }) {
               </div>
             </div>
           </div>
-
-          <Link to={`profile/${post.author.username}`}>
-            <div className="absolute bottom-3 flex flex-row items-center gap-2 ">
+          <div className="absolute bottom-3 flex flex-row items-center gap-2 justify-between w-full">
+            <div
+              className=" flex flex-row items-center gap-2 cursor-pointer"
+              onClick={(e) => {
+                goUserProfile(e);
+              }}
+            >
               <img
                 className="w-10 h-10  rounded-full"
                 src={post.author.avatar}
@@ -80,9 +108,27 @@ export default function PostCard({ post }) {
                 {capitalize(post.author.username)}
               </h1>
             </div>
-          </Link>
+
+            {currentUser.id === post.author.id ? (
+              <div
+                className="ml-auto cursor-pointer mr-9"
+                onClick={(e) => {
+                  openEditModal(e);
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPenToSquare}
+                  size="2x"
+                  color="white"
+                  className="z-50"
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
       </div>
-    </Link>
+    </>
   );
 }

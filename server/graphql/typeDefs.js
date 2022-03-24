@@ -9,6 +9,9 @@ const typeDefs = gql`
     avatar: String!
     email: String!
     posts: [Post!]
+    followersCount: Int!
+    followingsCount: Int!
+    followed: Boolean!
   }
 
   type LoginResponse {
@@ -31,6 +34,7 @@ const typeDefs = gql`
     id: ID!
     content: String!
     author: User!
+    postId: ID!
   }
 
   type Query {
@@ -39,6 +43,8 @@ const typeDefs = gql`
     getPosts: [Post!]
     currentUser: User!
     getPostComments(postId: ID!): [Comment!]
+    getUserProfile(username: String!): User!
+    getUserPosts(username: String!): [Post!]
   }
 
   type Mutation {
@@ -53,10 +59,12 @@ const typeDefs = gql`
       confirmPassword: String!
     ): Boolean!
     logout: Boolean!
+    followUser(username: String!): User!
 
     # Post Mutations
     createPost(image: String!, title: String!): Post!
     deletePost(postId: ID!): Post!
+    updatePost(postId: ID!, title: String!): Post!
 
     #(like & dislike)Mutation
     likePost(postId: ID!): Post!

@@ -5,6 +5,7 @@ import consola from "consola";
 import { UserInputError, AuthenticationError } from "apollo-server-express";
 import PostLike from "../../models/postLike.js";
 import { validatePostInput } from "../../utils/validation.js";
+import User from "../../models/user.js";
 
 const postResolver = {
   Query: {
@@ -33,6 +34,25 @@ const postResolver = {
         throw new Error("Something Went Wrong");
       }
     },
+
+    // Get user posts query
+    async getUserPosts(_, { username }, ctx) {
+      await isAuthenticated(ctx);
+      let user = "";
+      try {
+        user = await User.findOne({ username });
+
+        if (!user) {
+          throw new UserInputError("User not found!");
+        }
+      } catch (error) {
+        consola.error(error);
+        throw new AuthenticationError("Not Authenticated");
+      }
+
+      const posts = await Post.find({ authorId: user.id });
+      return posts;
+    },
   },
   Mutation: {
     // Creating post mutation
@@ -43,6 +63,7 @@ const postResolver = {
       await validatePostInput({ title });
 
       let imageURL = "";
+
       try {
         const cloudinaryRes = await cloudinaryAPI.uploader.upload(image, {
           upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
@@ -60,6 +81,7 @@ const postResolver = {
       });
 
       await newPost.save();
+
       return newPost;
     },
 
@@ -87,6 +109,7 @@ const postResolver = {
       return result;
     },
 
+    // LIke post mutation
     async likePost(_, { postId }, ctx) {
       await isAuthenticated(ctx);
       const userId = ctx.req.payload.userId;
@@ -124,6 +147,35 @@ const postResolver = {
         consola.error(error);
         throw new Error("Something Went Wrong");
       }
+    },
+
+    // Update Post Mutation
+    async updatePost(_, { postId, title }, ctx) {
+      await isAuthenticated(ctx);
+      const userId = ctx.req.payload.userId;
+
+      let post = "";
+      try {
+        post = await Post.findById(postId);
+      } catch (error) {
+        consola.error(error);
+        throw new Error("Something Went Wrong");
+      }
+
+      if (!post) {
+        throw new UserInputError("Post not Found");
+      }
+
+      if (post.authorId.toString() !== userId) {
+        throw new AuthenticationError("Not Authorized.");
+      }
+
+      const updatedPost = await Post.findByIdAndUpdate(
+        postId,
+        { title },
+        { new: true }
+      );
+      return updatedPost;
     },
   },
 };

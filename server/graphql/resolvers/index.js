@@ -7,6 +7,8 @@ import PostLike from "../../models/postLike.js";
 import Comment from "../../models/comment.js";
 import Post from "../../models/post.js";
 import userResolver from "./user.js";
+import Following from "../../models/following.js";
+import Follower from "../../models/follower.js";
 
 const resolvers = {
   Post: {
@@ -41,13 +43,45 @@ const resolvers = {
   },
 
   User: {
+    // Get user posts
     posts: async (parent, __) => {
       const posts = await Post.find({ authorId: parent.id });
       return posts;
     },
+
+    // check if loaded user is followed or not
+    followed: async (parent, __, ctx) => {
+      const currentUserId = ctx.req.payload.userId;
+      const followFound = await Following.findOne({
+        $and: [{ user: currentUserId }, { target: parent._id }],
+      });
+
+      if (followFound) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    // Get number of followers for loaded user
+    followersCount: async (parent, _, __) => {
+      const followersCount = await Follower.countDocuments({
+        user: parent._id,
+      });
+      return followersCount;
+    },
+
+    // Get number of followings for loaded user
+    followingsCount: async (parent, _, __) => {
+      const followingCount = await Following.countDocuments({
+        user: parent._id,
+      });
+      return followingCount;
+    },
   },
 
   Comment: {
+    // load comment author
     author: async (parent, __) => {
       const user = await User.findById(parent.authorId);
       return user;
@@ -68,6 +102,7 @@ const resolvers = {
     ...authResolver.Mutation,
     ...postResolver.Mutation,
     ...commentResolver.Mutation,
+    ...userResolver.Mutation,
   },
 };
 

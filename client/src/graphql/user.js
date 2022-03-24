@@ -58,3 +58,35 @@ exports.LOGOUT_USER = gql`
     logout
   }
 `;
+
+exports.LOAD_USER_PROFILE = gql`
+  query GetUserProfile($username: String!) {
+    getUserProfile(username: $username) {
+      id
+      firstName
+      lastName
+      username
+      email
+      avatar
+      followed
+      followersCount
+      followingsCount
+    }
+  }
+`;
+
+exports.FOLLOW_AND_UNFOLLOW_USER = gql`
+  mutation FollowOrUnfollowUser($username: String!) {
+    followUser(username: $username) {
+      id
+      firstName
+      lastName
+      username
+      email
+      avatar
+      followed
+      followersCount
+      followingsCount
+    }
+  }
+`;

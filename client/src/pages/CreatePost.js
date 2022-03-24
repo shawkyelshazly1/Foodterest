@@ -22,17 +22,24 @@ export default function CreatePost() {
   });
 
   // create post mutation
-  const [createPost, { loading, data, error }] = useMutation(CREATE_POST, {
-    onError(error) {
-      setErrors(error.graphQLErrors);
-    },
+  const [createPost, { loading, data, error, client }] = useMutation(
+    CREATE_POST,
+    {
+      onError(error) {
+        setErrors(error.graphQLErrors);
+      },
 
-    onCompleted(data) {
-      if (data.createPost.id) {
-        navigate(`/posts/${data.createPost.id}`);
-      }
-    },
-  });
+      onCompleted(data) {
+        if (data.createPost.id) {
+          navigate(`/posts/${data.createPost.id}`);
+          //updating post in cache
+          client.cache.updateQuery({ query: GET_POSTS }, (data) => ({
+            getPosts: [data.createPost, ...data.getPosts],
+          }));
+        }
+      },
+    }
+  );
 
   // Handle file upload
   const handleFormSubmit = (e) => {
@@ -47,7 +54,6 @@ export default function CreatePost() {
             title: title,
             image: reader.result,
           },
-          refetchQueries: [{ query: GET_POSTS }],
         });
       };
     } else {

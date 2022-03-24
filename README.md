@@ -28,8 +28,10 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [x] _Init GraphQL Schema & Types_
   - [x] _Authentication lifeCycle_
   - [ ] _Model related deletion_
+  - [ ] _Feed Pagination_
 
 - **FrontEnd**
+
   - [x] _Init React Project_
   - [x] _Add Tailwind Css support_
   - [x] _Register & Login Mechanism_
@@ -41,18 +43,22 @@ Built with ♥ using React, Apollo Client & TailwindCSS
   - [x] _Post new pin_
   - [x] _Likes Count & Like Mechanism_
   - [x] _Post Page_
-  - [ ] _Profile Page_
   - [x] _Post comments section & add comment mechanism_
+  - [x] _Ability to delete comment_
+  - [x] _delete comment option_
+  - [x] _Profile Page_
+  - [ ] _delete post option_
 
 #
 
 ### Features "To be added" ✨
 
-- [ ] _Followers Mechanism & custom feed_
+- [x] _Followers Mechanism_
+- [ ] _Custom Followings Feed_
 - [ ] _Search mechanism_
 - [ ] _Save Pins_
 - [ ] _Categories & keywords_
-- [ ] _Realtime notification support_
+- [ ] _Realtime notification_
 
 ### Bugs" 🐞
 
@@ -60,9 +66,9 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 
 - [x] _Private Routing doesn't change URL if rendering AuthPage_
 - [x] _Input drag & drop shows issue with drop as empty name in form_
-- [ ] _Clicking outside doesn't close User dropdown menu_
-- [ ] _Fix Masonry layout in HomePage_
-- [ ] _Fix PostCard nested Link with overlay links_
+- [x] _Clicking outside doesn't close User dropdown menu_
+- [x] _Fix Masonry layout in HomePage_
+- [x] _Fix PostCard nested Link with overlay links_
 
 - **Backend**
 

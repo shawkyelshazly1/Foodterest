@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
       default:
-        "https://res.cloudinary.com/dwufx31ox/image/upload/v1647885847/Foodterest/h4ibhkznjlpfp1jbpnya.png",
+        "https://res.cloudinary.com/dwufx31ox/image/upload/v1648152876/Foodterest/pngwing.com_5_yr4gjt.png",
     },
     tokenVersion: { type: Number, required: true, default: 0 },
   },
