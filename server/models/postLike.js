@@ -2,8 +2,12 @@ import mongoose from "mongoose";
 
 const postLikeSchema = mongoose.Schema(
   {
-    postId: { type: mongoose.SchemaTypes.ObjectId, reuired: true },
-    authorId: { type: mongoose.SchemaTypes.ObjectId, required: true },
+    postId: { type: mongoose.SchemaTypes.ObjectId, reuired: true, index: true },
+    authorId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: true,
+      index: true,
+    },
   },
   { timestamps: true }
 );

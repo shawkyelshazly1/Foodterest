@@ -9,31 +9,32 @@ import Post from "../../models/post.js";
 import userResolver from "./user.js";
 import Following from "../../models/following.js";
 import Follower from "../../models/follower.js";
+import {
+  commentsCountLoader,
+  postLikeLoader,
+  userLoader,
+} from "../dataLoaders.js";
 
 const resolvers = {
   Post: {
     author: async (parent, __) => {
-      const user = await User.findById(parent.authorId);
+      const user = await userLoader.load(parent.authorId.toString());
+      // const user = await User.findById(parent.authorId);
       return user;
     },
 
     likesCount: async (parent, __) => {
-      return await PostLike.countDocuments({ postId: parent._id });
+      return await postLikeLoader.load(parent._id.toString());
+
+      // return await PostLike.countDocuments({ postId: parent._id });
     },
 
     commentsCount: async (parent, __) => {
-      return await Comment.countDocuments({ postId: parent._id });
+      return await commentsCountLoader.load(parent._id.toString());
     },
 
-    liked: async (parent, __, { req }) => {
-      const like = await PostLike.findOne({
-        $and: [{ postId: parent._id }, { authorId: req.payload.userId }],
-      });
-      if (like) {
-        return true;
-      } else {
-        return false;
-      }
+    liked: async (parent, __, { postLikedLoader }) => {
+      return await postLikedLoader.load(parent._id.toString());
     },
 
     comments: async (parent, __) => {

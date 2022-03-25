@@ -77,7 +77,7 @@ export default function CreatePost() {
                 <div className="w-full  text-center">
                   <FileUpload setImage={setImage} />
                 </div>
-                <div className="flex mx-auto w-full flex-col gap-6 items-start content-start h-full mt-5">
+                <div className="flex mx-auto  w-full  flex-col gap-6 items-start content-start h-full mt-5">
                   <input
                     min={1}
                     onChange={(e) => {
@@ -86,7 +86,7 @@ export default function CreatePost() {
                     required
                     type="text"
                     placeholder="Add your title"
-                    className=" font-semibold text-3xl border-b-2 p-2 focus:outline-none focus:border-b-blue-400"
+                    className=" h-full  overflow-hidden font-semibold text-3xl border-b-2 p-2 focus:outline-none focus:border-b-blue-400"
                   />
                   <div className="flex flex-row items-center gap-3">
                     <img

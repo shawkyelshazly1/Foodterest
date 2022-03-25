@@ -59,7 +59,7 @@ const typeDefs = gql`
       confirmPassword: String!
     ): Boolean!
     logout: Boolean!
-    followUser(username: String!): User!
+    followUser(username: String!): [User!]
 
     # Post Mutations
     createPost(image: String!, title: String!): Post!
@@ -70,7 +70,7 @@ const typeDefs = gql`
     likePost(postId: ID!): Post!
 
     #Comment Mutation
-    addComment(postId: ID!, content: String!): Comment!
+    addComment(postId: ID!, content: String!): Post!
     deleteComment(commentId: ID!): Comment!
   }
 `;

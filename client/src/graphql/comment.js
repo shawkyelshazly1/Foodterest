@@ -4,8 +4,22 @@ exports.ADD_COMMENT = gql`
   mutation AddComment($postId: ID!, $content: String!) {
     addComment(postId: $postId, content: $content) {
       id
-      content
-      postId
+      title
+      image
+      liked
+      likesCount
+      commentsCount
+      comments {
+        id
+        content
+        author {
+          id
+          firstName
+          lastName
+          avatar
+          username
+        }
+      }
       author {
         id
         firstName

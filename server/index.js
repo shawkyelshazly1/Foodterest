@@ -9,6 +9,8 @@ import typeDefs from "./graphql/typeDefs.js";
 import resolvers from "./graphql/resolvers/index.js";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
 import { refreshTokenController } from "./controllers/authControllers.js";
+import DataLoader from "dataloader";
+import { loadLiked } from "./graphql/dataLoaders.js";
 
 // Setting Enviromental variables with dotenv
 dotenv.config();
@@ -37,7 +39,11 @@ dotenv.config();
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req, res }) => ({ req, res }),
+    context: ({ req, res }) => ({
+      req,
+      res,
+      postLikedLoader: new DataLoader((keys) => loadLiked(keys, req)),
+    }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
 

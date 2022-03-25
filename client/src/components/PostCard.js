@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { capitalize } from "underscore.string";
+import { capitalize, prune } from "underscore.string";
 import HeartFilledComponent from "./reusable/HeartFilledComponent";
 import HeartUnfilledComponent from "./reusable/HeartUnfilledComponent";
 import CommentFilledComponent from "./reusable/CommentFilledComponent";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import EditPost from "./EditPost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { CURRENT_USER } from "../graphql/user";
 
 export default function PostCard({ post, handleEditModal }) {
@@ -66,7 +67,7 @@ export default function PostCard({ post, handleEditModal }) {
         >
           <div className="flex flex-col gap-1">
             <h1 className="  text-lg text-white font-bold pt-2 ">
-              {capitalize(post.title)}
+              {prune(capitalize(post.title), 50)}
             </h1>
             <div className="flex flex-row gap-3 pl-1 items-center">
               {post.liked ? (

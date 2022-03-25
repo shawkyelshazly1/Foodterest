@@ -54,7 +54,7 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 ### Features "To be added" ✨
 
 - [x] _Followers Mechanism_
-- [ ] _Custom Followings Feed_
+- [x] _Custom Followings Feed_
 - [ ] _Search mechanism_
 - [ ] _Save Pins_
 - [ ] _Categories & keywords_

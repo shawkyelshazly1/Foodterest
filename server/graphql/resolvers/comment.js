@@ -4,6 +4,7 @@ import Post from "../../models/post.js";
 import { UserInputError, AuthenticationError } from "apollo-server-express";
 import Comment from "../../models/comment.js";
 import { validateCommentInput } from "../../utils/validation.js";
+import { commentsCountLoader, postLoader } from "../dataLoaders.js";
 
 const commentResolver = {
   Query: {
@@ -59,8 +60,13 @@ const commentResolver = {
           content,
           authorId: ctx.req.payload.userId,
         });
+        // Clearing data loaders
+        postLoader.clear(postId.toString());
+        commentsCountLoader.clear(postId.toString());
 
-        return await newComment.save();
+        await newComment.save();
+
+        return postFound;
       } catch (error) {
         consola.error(error);
         throw new Error("Something Went Wrong.");
@@ -89,6 +95,10 @@ const commentResolver = {
       }
 
       try {
+        // Clearing data loaders
+        postLoader.clear(commentFound.postId.toString());
+        commentsCountLoader.clear(commentFound.postId.toString());
+
         return await commentFound.remove();
       } catch (error) {
         consola.error(error);

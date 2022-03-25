@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const followerSchema = mongoose.Schema(
   {
-    user: { type: mongoose.SchemaTypes.ObjectId, ref: "User" },
+    user: { type: mongoose.SchemaTypes.ObjectId, ref: "User", index: true },
     target: { type: mongoose.SchemaTypes.ObjectId, ref: "User" }, // current user is the target
   },
   { timestamps: true }

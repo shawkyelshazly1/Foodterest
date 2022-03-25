@@ -50,7 +50,7 @@ const validationSchemas = {
       .required()
       .empty()
       .min(1)
-      .max(40)
+      .max(150)
       .message("Title shouldn't be empty, and should be within 5 & 40 chars."),
   }),
 

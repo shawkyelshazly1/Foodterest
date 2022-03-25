@@ -53,6 +53,10 @@ const userResolver = {
         throw new UserInputError("User not found.");
       }
 
+      if (userToFollow._id === currentUser._id) {
+        throw new Error("Not Authorized!");
+      }
+
       try {
         const followFound = await Following.findOne({
           $and: [{ user: currentUser._id }, { target: userToFollow._id }],
@@ -91,7 +95,7 @@ const userResolver = {
         throw new Error("Something went wrong!");
       }
 
-      return userToFollow;
+      return [currentUser, userToFollow];
     },
   },
 };
