@@ -6,7 +6,6 @@ exports.GET_POSTS = gql`
       title
       id
       image
-      liked
       likesCount
       commentsCount
       author {
@@ -52,6 +51,7 @@ exports.GET_POST = gql`
       id
       title
       image
+      liked
       author {
         id
         avatar

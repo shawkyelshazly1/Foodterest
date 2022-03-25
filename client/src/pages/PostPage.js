@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
-import { GET_POST } from "../graphql/posts";
+import { GET_POST, LIKE_POST } from "../graphql/posts";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/reusable/LoadingComponent";
 import { capitalize } from "underscore.string";
@@ -10,6 +10,8 @@ import { faAngleDown, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import CommentsComponent from "../components/CommentsComponent";
 import numeral from "numeral";
 import { CURRENT_USER, FOLLOW_AND_UNFOLLOW_USER } from "../graphql/user";
+import HeartFilledComponent from "../components/reusable/HeartFilledComponent";
+import HeartUnfilledComponent from "../components/reusable/HeartUnfilledComponent";
 
 export default function PostPage() {
   // Getting params for postId as well as setting the state to control the iamge style
@@ -26,6 +28,9 @@ export default function PostPage() {
     fetchPolicy: "cache-only",
   });
 
+  // Like & Unlike post mutation
+  const [likePost] = useMutation(LIKE_POST, { variables: { postId } });
+
   // Follow & unfollow user Mutation
   const [
     followUser,
@@ -40,9 +45,14 @@ export default function PostPage() {
     },
   });
 
+  // Use effect to handle clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        e.target.classList.contains("mainContainer")
+      ) {
         navigate(-1);
       }
     };
@@ -53,6 +63,7 @@ export default function PostPage() {
     };
   }, [postId, navigate]);
 
+  // Return loading component while loading query
   if (loading)
     return (
       <div className="my-auto text-center">
@@ -61,6 +72,7 @@ export default function PostPage() {
       </div>
     );
 
+  // Handling image size to determine view style
   const handleImageStyle = () => {
     const renderedHeight = document.getElementById("image").clientHeight;
     if (renderedHeight > 500) {
@@ -70,10 +82,22 @@ export default function PostPage() {
     }
   };
 
+  // Handle saving post
+  const handleSavePin = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
-    <div className="bg-[#ececee] w-full h-full flex justify-center items-start mt-5 max-h-fit">
+    <div className="bg-[#ececee] w-full h-full flex justify-center items-start mt-5 max-h-fit mainContainer">
       <button className="absolute left-5 top-5 hover:bg-[#dddddd] rounded-full py-2 px-3 flex items-center justify-center">
-        <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+        <FontAwesomeIcon
+          icon={faArrowLeft}
+          size="2x"
+          onClick={(e) => {
+            navigate(-1);
+          }}
+        />
       </button>
       <div
         ref={ref}
@@ -105,7 +129,34 @@ export default function PostPage() {
           </div>
         )}
 
-        <div className="w-full h-full min-h-fit max-h-fit py-5 px-6 flex flex-col mt-16 gap-8 pr-6 ">
+        <div className="w-full h-full min-h-fit max-h-fit py-5 px-6 flex flex-col gap-8 pr-6 pt-7">
+          <div className="flex flex-row justify-between">
+            {data.getPost.liked ? (
+              <HeartFilledComponent
+                size="2xl"
+                cursor={"cursor-pointer"}
+                onClick={() => {
+                  likePost();
+                }}
+                animation="animate-heartGrow"
+              />
+            ) : (
+              <HeartUnfilledComponent
+                size="2xl"
+                cursor={"cursor-pointer"}
+                onClick={() => {
+                  likePost();
+                }}
+              />
+            )}
+
+            <button
+              onClick={(e) => handleSavePin(e)}
+              className="ml-auto hover:bg-gray-500 py-2 px-4 rounded-full bg-gray-400 text-white font-semibold"
+            >
+              Save
+            </button>
+          </div>
           <h1 className="text-5xl font-extrabold  break-words">
             {capitalize(data.getPost.title)}
           </h1>

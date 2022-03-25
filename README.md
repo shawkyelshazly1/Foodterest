@@ -69,6 +69,7 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 - [x] _Clicking outside doesn't close User dropdown menu_
 - [x] _Fix Masonry layout in HomePage_
 - [x] _Fix PostCard nested Link with overlay links_
+- [ ] _Clicking on navbar closes post page_
 
 - **Backend**
 

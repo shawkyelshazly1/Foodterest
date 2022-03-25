@@ -24,8 +24,7 @@ export default function CommentComponent({ comment }) {
     {
       onCompleted(data) {
         if (data.deleteComment.comments.length > 0) {
-          const updatedComments = data.deletComment.comments || [];
-          console.log(updatedComments);
+          const updatedComments = data.deleteComment.comments;
           client.cache.updateQuery(
             {
               query: GET_POST_COMMENTS,

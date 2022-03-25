@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { capitalize, prune } from "underscore.string";
 import HeartFilledComponent from "./reusable/HeartFilledComponent";
-import HeartUnfilledComponent from "./reusable/HeartUnfilledComponent";
 import CommentFilledComponent from "./reusable/CommentFilledComponent";
-import { useMutation, useQuery } from "@apollo/client";
-import { LIKE_POST } from "../graphql/posts";
+import { useQuery } from "@apollo/client";
+
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -21,18 +20,6 @@ export default function PostCard({ post, handleEditModal }) {
   } = useQuery(CURRENT_USER, {
     fetchPolicy: "cache-only",
   });
-
-  // Likepost mutation
-  const [likePost] = useMutation(LIKE_POST);
-
-  // Handle liking post
-  const HandleLike = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    likePost({
-      variables: { postId: post.id },
-    });
-  };
 
   // Handle opening the edit modal
   const openEditModal = (e) => {
@@ -82,27 +69,6 @@ export default function PostCard({ post, handleEditModal }) {
               {prune(capitalize(post.title), 50)}
             </h1> */}
             <div className="flex flex-row gap-3 pl-1 items-center">
-              {post.liked ? (
-                <div className="flex f</div>lex-row items-center gap-1">
-                  <HeartFilledComponent size="xl" onClick={HandleLike} />
-                  <p className="text-white font-Roboto font-medium text-lg">
-                    {post.likesCount}
-                  </p>
-                </div>
-              ) : (
-                <div className="flex flex-row items-center gap-1">
-                  <HeartUnfilledComponent size="xl" onClick={HandleLike} />
-                  <p className="text-white font-Roboto font-medium text-lg">
-                    {post.likesCount}
-                  </p>
-                </div>
-              )}
-              <div className="flex flex-row items-center gap-1">
-                <CommentFilledComponent size="xl" />
-                <p className="text-white font-Roboto font-medium text-lg">
-                  {post.commentsCount}
-                </p>
-              </div>
               <button
                 onClick={(e) => handleSavePin(e)}
                 className="ml-auto hover:bg-gray-500 py-2 px-4 rounded-full bg-gray-400 text-white font-semibold"
@@ -132,26 +98,43 @@ export default function PostCard({ post, handleEditModal }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col pl-2">
-        <Link to={`/posts/${post.id}`} className="cursor-default  w-fit">
-          <h1 className="  text-lg text-black font-semibold pt-2">
-            {prune(capitalize(post.title), 30)}
-          </h1>
-        </Link>
-        <div
-          className=" flex flex-row items-center gap-2 cursor-pointer w-fit"
-          onClick={(e) => {
-            goUserProfile(e);
-          }}
-        >
-          <img
-            className="w-8 h-8  rounded-full"
-            src={post.author.avatar}
-            alt=""
-          />
-          <h1 className="text-gray-500 text-sm font-thin ">
-            {capitalize(post.author.username)}
-          </h1>
+      <div className="flex flex-row justify-between gap-1 w-full h-full">
+        <div className="flex flex-col pl-2">
+          <Link to={`/posts/${post.id}`} className="cursor-default  w-fit">
+            <h1 className="  text-lg text-black font-semibold pt-2">
+              {prune(capitalize(post.title), 30)}
+            </h1>
+          </Link>
+          <div
+            className=" flex flex-row items-center gap-2 cursor-pointer w-fit"
+            onClick={(e) => {
+              goUserProfile(e);
+            }}
+          >
+            <img
+              className="w-8 h-8  rounded-full"
+              src={post.author.avatar}
+              alt=""
+            />
+            <h1 className="text-gray-500 text-sm font-thin ">
+              {capitalize(post.author.username)}
+            </h1>
+          </div>
+        </div>
+        <div className="flex flex-row items-start pt-2 pr-2 gap-1">
+          <div className="flex f</div>lex-row items-center gap-1">
+            <HeartFilledComponent size="1x" />
+            <p className=" font-Roboto font-medium text-[1rem]">
+              {post.likesCount}
+            </p>
+          </div>
+
+          <div className="flex flex-row items-center gap-1">
+            <CommentFilledComponent size="1x" />
+            <p className="font-Roboto font-medium text-[1rem]">
+              {post.commentsCount}
+            </p>
+          </div>
         </div>
       </div>
     </div>

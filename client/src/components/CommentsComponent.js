@@ -18,7 +18,7 @@ export default function CommentsComponent({ postId }) {
 
   // Loading post query
   const {
-    data: postCommnets,
+    data: postComments,
     loading: loadingComments,
     error: errorComments,
   } = useQuery(GET_POST_COMMENTS, {
@@ -77,10 +77,10 @@ export default function CommentsComponent({ postId }) {
 
   return (
     <div className="flex flex-col gap-4 min-h-full">
-      {loadingComments && !postCommnets ? (
+      {loadingComments && !postComments ? (
         <LoadingComponent />
-      ) : postCommnets.getPostComments ? (
-        postCommnets.getPostComments.map((comment) => (
+      ) : postComments.getPostComments ? (
+        postComments.getPostComments.map((comment) => (
           <CommentComponent comment={comment} key={comment.id} />
         ))
       ) : null}

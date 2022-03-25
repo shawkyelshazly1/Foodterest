@@ -41,8 +41,6 @@ const postResolver = {
           followingsList.push(doc.target);
         });
 
-        followingsList.push(currentUserId);
-
         const posts = await Post.find({
           authorId: { $in: followingsList },
         }).sort({
@@ -95,8 +93,6 @@ const postResolver = {
         throw new Error("Something went wrong uploading the image!");
       }
 
-      console.log(_s.strLeft(imageURL, "/upload/"));
-      console.log(_s.strRight(imageURL, "/upload/"));
       imageURL = `${_s.strLeft(
         imageURL,
         "/upload/"

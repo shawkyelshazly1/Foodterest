@@ -12,6 +12,15 @@ module.exports = {
       colors: {
         blackCoverFade: "rgba(0, 0, 0, 0.6)",
       },
+      keyframes: {
+        heartGrow: {
+          "0%,100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.3)" },
+        },
+      },
+      animation: {
+        heartGrow: "heartGrow 1s ease-in-out",
+      },
     },
   },
   plugins: [],

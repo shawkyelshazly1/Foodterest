@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   CURRENT_USER,
@@ -16,6 +16,7 @@ import numeral from "numeral";
 export default function Profile() {
   const [selectedPanel, setSelectedPanel] = useState("created");
   const { username } = useParams();
+  const navigate = useNavigate();
 
   // Loading current use from cached data
   const {
@@ -51,6 +52,10 @@ export default function Profile() {
 
   if (loading) {
     return <LoadingComponent />;
+  }
+
+  if (!loading && !data) {
+    navigate("/404");
   }
 
   const breakpointColumnsObj = {

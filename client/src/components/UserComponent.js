@@ -90,7 +90,7 @@ export default function UserComponent({ currentUser }) {
           <div className="flex flex-col gap-2 w-full  ">
             <Link
               className="hover:bg-gray-200 items-start flex  px-6 rounded-full py-2 font-semibold"
-              to="/"
+              to="#"
             >
               Settings
             </Link>
