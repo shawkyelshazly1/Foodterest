@@ -47,18 +47,22 @@ export default function PostCard({ post, handleEditModal }) {
   };
 
   return (
-    <>
+    <div className="flex flex-col my-6">
       <div
         onClick={() => {
           navigate(`/posts/${post.id}`);
         }}
-        className=" rounded-2xl relative w-full my-4  bg-gray-50 "
+        className=" rounded-2xl relative w-full"
         onMouseEnter={() => {
           setShowOverlay("");
         }}
         onMouseLeave={() => setShowOverlay("hidden")}
       >
-        <img className="MediaCard rounded-2xl w-full" src={post.image} alt="" />
+        <img
+          className="MediaCard rounded-2xl w-full bg-gray-50"
+          src={post.image}
+          alt=""
+        />
         <div
           className={` ${showOverlay} absolute w-full h-full rounded-2xl  z-20 bg-black opacity-30 top-0 left-0 flex flex-col p-3`}
         ></div>
@@ -66,9 +70,9 @@ export default function PostCard({ post, handleEditModal }) {
           className={` ${showOverlay} absolute w-full h-full  rounded-2xl z-30 top-0 left-0 flex flex-col p-3 pl-4  `}
         >
           <div className="flex flex-col gap-1">
-            <h1 className="  text-lg text-white font-bold pt-2 ">
+            {/* <h1 className="  text-lg text-white font-bold pt-2 ">
               {prune(capitalize(post.title), 50)}
-            </h1>
+            </h1> */}
             <div className="flex flex-row gap-3 pl-1 items-center">
               {post.liked ? (
                 <div className="flex f</div>lex-row items-center gap-1">
@@ -94,22 +98,6 @@ export default function PostCard({ post, handleEditModal }) {
             </div>
           </div>
           <div className="absolute bottom-3 flex flex-row items-center gap-2 justify-between w-full">
-            <div
-              className=" flex flex-row items-center gap-2 cursor-pointer"
-              onClick={(e) => {
-                goUserProfile(e);
-              }}
-            >
-              <img
-                className="w-10 h-10  rounded-full"
-                src={post.author.avatar}
-                alt=""
-              />
-              <h1 className="text-white text-lg font-semibold">
-                {capitalize(post.author.username)}
-              </h1>
-            </div>
-
             {currentUser.id === post.author.id ? (
               <div
                 className="ml-auto cursor-pointer mr-9"
@@ -130,6 +118,26 @@ export default function PostCard({ post, handleEditModal }) {
           </div>
         </div>
       </div>
-    </>
+      <div className="flex flex-col pl-2">
+        <h1 className="  text-lg text-black font-semibold pt-2 ">
+          {prune(capitalize(post.title), 30)}
+        </h1>
+        <div
+          className=" flex flex-row items-center gap-2 cursor-pointer w-fit"
+          onClick={(e) => {
+            goUserProfile(e);
+          }}
+        >
+          <img
+            className="w-8 h-8  rounded-full"
+            src={post.author.avatar}
+            alt=""
+          />
+          <h1 className="text-gray-500 text-sm font-thin ">
+            {capitalize(post.author.username)}
+          </h1>
+        </div>
+      </div>
+    </div>
   );
 }
