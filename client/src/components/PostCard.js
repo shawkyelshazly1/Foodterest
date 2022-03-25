@@ -7,10 +7,8 @@ import CommentFilledComponent from "./reusable/CommentFilledComponent";
 import { useMutation, useQuery } from "@apollo/client";
 import { LIKE_POST } from "../graphql/posts";
 import { useNavigate } from "react-router-dom";
-import EditPost from "./EditPost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { CURRENT_USER } from "../graphql/user";
 
 export default function PostCard({ post, handleEditModal }) {
@@ -24,8 +22,10 @@ export default function PostCard({ post, handleEditModal }) {
     fetchPolicy: "cache-only",
   });
 
+  // Likepost mutation
   const [likePost] = useMutation(LIKE_POST);
 
+  // Handle liking post
   const HandleLike = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -34,16 +34,24 @@ export default function PostCard({ post, handleEditModal }) {
     });
   };
 
+  // Handle opening the edit modal
   const openEditModal = (e) => {
     e.preventDefault();
     e.stopPropagation();
     handleEditModal(post);
   };
 
+  // Handle navigating to the user profile
   const goUserProfile = (e) => {
     e.preventDefault();
     e.stopPropagation();
     navigate(`profile/${post.author.username}`);
+  };
+
+  // Handle saving post
+  const handleSavePin = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
@@ -95,6 +103,12 @@ export default function PostCard({ post, handleEditModal }) {
                   {post.commentsCount}
                 </p>
               </div>
+              <button
+                onClick={(e) => handleSavePin(e)}
+                className="ml-auto hover:bg-gray-500 py-2 px-4 rounded-full bg-gray-400 text-white font-semibold"
+              >
+                Save
+              </button>
             </div>
           </div>
           <div className="absolute bottom-3 flex flex-row items-center gap-2 justify-between w-full">
@@ -119,9 +133,11 @@ export default function PostCard({ post, handleEditModal }) {
         </div>
       </div>
       <div className="flex flex-col pl-2">
-        <h1 className="  text-lg text-black font-semibold pt-2 ">
-          {prune(capitalize(post.title), 30)}
-        </h1>
+        <Link to={`/posts/${post.id}`} className="cursor-default  w-fit">
+          <h1 className="  text-lg text-black font-semibold pt-2">
+            {prune(capitalize(post.title), 30)}
+          </h1>
+        </Link>
         <div
           className=" flex flex-row items-center gap-2 cursor-pointer w-fit"
           onClick={(e) => {

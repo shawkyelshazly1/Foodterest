@@ -99,7 +99,8 @@ const commentResolver = {
         postLoader.clear(commentFound.postId.toString());
         commentsCountLoader.clear(commentFound.postId.toString());
 
-        return await commentFound.remove();
+        await commentFound.remove();
+        return await Post.findById(commentFound.postId);
       } catch (error) {
         consola.error(error);
         throw new Error("Something Went Wrong.");

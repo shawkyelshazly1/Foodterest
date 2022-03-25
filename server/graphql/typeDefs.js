@@ -71,7 +71,7 @@ const typeDefs = gql`
 
     #Comment Mutation
     addComment(postId: ID!, content: String!): Post!
-    deleteComment(commentId: ID!): Comment!
+    deleteComment(commentId: ID!): Post!
   }
 `;
 

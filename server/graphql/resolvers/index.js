@@ -38,7 +38,9 @@ const resolvers = {
     },
 
     comments: async (parent, __) => {
-      const comments = await Comment.find({ postId: parent._id });
+      const comments = await Comment.find({ postId: parent._id }).sort({
+        createdAt: -1,
+      });
       return comments;
     },
   },

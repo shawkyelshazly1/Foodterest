@@ -73,3 +73,4 @@ Built with ♥ using React, Apollo Client & TailwindCSS
 - **Backend**
 
 - [ ] _Cache not update after creating new post, currently force refretching of getPosts_
+- [ ] _Update cache correctly for all queries & mutations_

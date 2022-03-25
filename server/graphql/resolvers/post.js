@@ -131,6 +131,7 @@ const postResolver = {
       if (postFound.authorId.toString() !== userId) {
         throw new AuthenticationError("Not Authorized.");
       }
+      postLikeLoader.clear(postId.toString());
 
       const result = await postFound.remove();
 
@@ -200,7 +201,7 @@ const postResolver = {
       if (post.authorId.toString() !== userId) {
         throw new AuthenticationError("Not Authorized.");
       }
-
+      postLikeLoader.clear(postId.toString());
       const updatedPost = await Post.findByIdAndUpdate(
         postId,
         { title },

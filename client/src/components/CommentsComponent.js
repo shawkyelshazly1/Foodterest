@@ -35,8 +35,7 @@ export default function CommentsComponent({ postId }) {
     {
       onCompleted(data) {
         if (data.addComment) {
-          let commentAdded = data.addComment;
-
+          let commentAdded = data.addComment.comments[0];
           client.cache.updateQuery(
             {
               query: GET_POST_COMMENTS,

@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import { GET_POST } from "../graphql/posts";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/reusable/LoadingComponent";
 import { capitalize } from "underscore.string";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import CommentsComponent from "../components/CommentsComponent";
 import numeral from "numeral";
 import { CURRENT_USER, FOLLOW_AND_UNFOLLOW_USER } from "../graphql/user";
@@ -16,6 +16,8 @@ export default function PostPage() {
   const { postId } = useParams();
   const [isLargeImage, setIsLargeImage] = useState(false);
   const navigate = useNavigate();
+
+  const ref = useRef();
 
   // Loading current use from cached data
   const {
@@ -39,8 +41,17 @@ export default function PostPage() {
   });
 
   useEffect(() => {
-    // Getting Image height to determine style on DOM
-  }, [postId]);
+    const handleClickOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        navigate(-1);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [postId, navigate]);
 
   if (loading)
     return (
@@ -60,8 +71,14 @@ export default function PostPage() {
   };
 
   return (
-    <div className="bg-[#E9E9EB] w-full h-full flex justify-center items-start mt-5 max-h-fit">
-      <div className=" bg-white w-3/5 min-h-[500px] max-h-fit flex flex-row justify-between gap-4 rounded-3xl mt-5">
+    <div className="bg-[#ececee] w-full h-full flex justify-center items-start mt-5 max-h-fit">
+      <button className="absolute left-5 top-5 hover:bg-[#dddddd] rounded-full py-2 px-3 flex items-center justify-center">
+        <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+      </button>
+      <div
+        ref={ref}
+        className=" bg-white w-3/5 min-h-[500px] max-h-fit flex flex-row justify-between gap-4 rounded-3xl mt-5"
+      >
         {isLargeImage ? (
           <div className="w-full h-full">
             <img

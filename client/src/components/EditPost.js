@@ -8,7 +8,9 @@ import { UPDATE_POST } from "../graphql/posts";
 export default function EditPost({ showModal, postToEdit, handleEditModal }) {
   const [isLargeImage, setIsLargeImage] = useState(false);
 
-  const [updatePost, { data, loading, error }] = useMutation(UPDATE_POST, {});
+  const [updatePost, { data, loading, error }] = useMutation(UPDATE_POST, {
+    
+  });
 
   const handleImageStyle = () => {
     const renderedHeight = document.getElementById("image").clientHeight;

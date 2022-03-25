@@ -24,7 +24,6 @@ exports.LIKE_POST = gql`
       id
       liked
       likesCount
-      commentsCount
     }
   }
 `;
@@ -53,9 +52,6 @@ exports.GET_POST = gql`
       id
       title
       image
-      likesCount
-      commentsCount
-      liked
       author {
         id
         avatar
@@ -72,17 +68,8 @@ exports.GET_POST = gql`
 exports.UPDATE_POST = gql`
   mutation UpdatePost($postId: ID!, $title: String!) {
     updatePost(postId: $postId, title: $title) {
-      title
       id
-      image
-      liked
-      likesCount
-      commentsCount
-      author {
-        id
-        username
-        avatar
-      }
+      title
     }
   }
 `;

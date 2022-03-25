@@ -23,9 +23,28 @@ export default function CommentComponent({ comment }) {
     DELETE_COMMENT,
     {
       onCompleted(data) {
-        if (data.deleteComment.id) {
-          let deletedIdentity = client.cache.identify(data.deleteComment);
-          client.cache.evict({ id: deletedIdentity });
+        if (data.deleteComment.comments.length > 0) {
+          const updatedComments = data.deletComment.comments || [];
+          console.log(updatedComments);
+          client.cache.updateQuery(
+            {
+              query: GET_POST_COMMENTS,
+              variables: { postId: comment.postId },
+            },
+            (data) => ({
+              getPostComments: [...updatedComments],
+            })
+          );
+        } else {
+          client.cache.updateQuery(
+            {
+              query: GET_POST_COMMENTS,
+              variables: { postId: comment.postId },
+            },
+            (data) => ({
+              getPostComments: [],
+            })
+          );
         }
       },
     }
