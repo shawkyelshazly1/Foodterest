@@ -9,9 +9,11 @@ import {
 import { GET_USER_POSTS } from "../graphql/posts";
 import { capitalize } from "underscore.string";
 import LoadingComponent from "../components/reusable/LoadingComponent";
-import Masonry from "react-masonry-css";
-import PostCard from "../components/PostCard";
 import numeral from "numeral";
+import CreatedPostsComponent from "../components/CreatedPostsComponent";
+import SavedBoardsComponent from "../components/SavedBoardsComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Profile() {
   const [selectedPanel, setSelectedPanel] = useState("created");
@@ -31,21 +33,12 @@ export default function Profile() {
     { data: followData, loading: followLoading, error: followError },
   ] = useMutation(FOLLOW_AND_UNFOLLOW_USER);
 
-  // Lazy query to load user posts after profile loaded
-  const [
-    loadUserPosts,
-    { data: posts, loading: loadingPosts, error: postsError },
-  ] = useLazyQuery(GET_USER_POSTS, {
-    variables: { username },
-    fetchPolicy: "cache-first",
-  });
-
   // Loading user profile query
   const { data, loading, error } = useQuery(LOAD_USER_PROFILE, {
     variables: { username },
     onCompleted({ getUserProfile }) {
-      if (getUserProfile.id) {
-        loadUserPosts();
+      if (!getUserProfile.id) {
+        navigate("/404");
       }
     },
   });
@@ -58,17 +51,9 @@ export default function Profile() {
     navigate("/404");
   }
 
-  const breakpointColumnsObj = {
-    default: 5,
-    1700: 4,
-    1100: 3,
-    700: 2,
-    500: 1,
-  };
-
   return (
     <div className="w-full h-full">
-      <div className="w-full flex flex-col gap-2 justify-center items-center pt-5">
+      <div className="w-full flex flex-col gap-2 justify-center items-center pt-5 mt-[4rem]">
         <img
           src={data.getUserProfile.avatar}
           alt=""
@@ -115,47 +100,40 @@ export default function Profile() {
           </div>
         )}
 
-        <div className="flex flex-row gap-6 mt-14">
-          <p
-            className={` ${
-              selectedPanel === "created" ? "border-b-4 " : ""
-            } font-semibold text-lg border-b-black pb-2 px-1 cursor-pointer`}
-            onClick={() => {
-              setSelectedPanel("created");
-            }}
-          >
-            Created
-          </p>
-          <p
-            className={` ${
-              selectedPanel === "saved" ? "border-b-4 " : ""
-            } font-semibold text-lg border-b-black pb-2 px-1 cursor-pointer`}
-            onClick={() => {
-              setSelectedPanel("saved");
-            }}
-          >
-            Saved
-          </p>
+        <div className="flex flex-row mt-14 w-full justify-center items-center px-5">
+          <div className="flex-1 flex flex-row justify-center gap-6 pl-8">
+            <p
+              className={` ${
+                selectedPanel === "created" ? "border-b-4 " : ""
+              } font-semibold text-lg border-b-black  pb-2 px-1 cursor-pointer w-fit `}
+              onClick={() => {
+                setSelectedPanel("created");
+              }}
+            >
+              Created
+            </p>
+            <p
+              className={` ${
+                selectedPanel === "saved" ? "border-b-4 " : ""
+              } font-semibold text-lg border-b-black pb-2 px-1 cursor-pointer`}
+              onClick={() => {
+                setSelectedPanel("saved");
+              }}
+            >
+              Saved
+            </p>
+          </div>
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="lg"
+            className="text-center rounded-full custom-shadow-2 p-3 cursor-pointer"
+          />
         </div>
       </div>
-      {loadingPosts || !posts ? (
-        <div className="w-full flex items-center justify-center">
-          <LoadingComponent />
-        </div>
+      {selectedPanel === "created" ? (
+        <CreatedPostsComponent username={username} />
       ) : (
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="flex masonry-grid-style"
-          columnClassName="masonry-grid_column-style"
-        >
-          {posts.getUserPosts.map((post) => (
-            <PostCard
-              key={post.id}
-              post={post}
-              // handleEditModal={handleEditModal}
-            />
-          ))}
-        </Masonry>
+        <SavedBoardsComponent userId={data.getUserProfile.id} />
       )}
     </div>
   );

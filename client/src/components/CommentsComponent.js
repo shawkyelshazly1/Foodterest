@@ -64,15 +64,6 @@ export default function CommentsComponent({ postId }) {
       setComment("");
       document.getElementById("commentInput").innerText = "";
     }
-
-    // const { getPostComments } = client.readQuery({
-    //   query: GET_POST_COMMENTS,
-    //   variables: {
-    //     postId: "",
-    //   },
-    // });
-
-    // console.log(getPostComments);
   };
 
   return (

@@ -9,9 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { CURRENT_USER } from "../graphql/user";
+import SaveToBoard from "./SaveToBoard";
 
 export default function PostCard({ post, handleEditModal }) {
   const [showOverlay, setShowOverlay] = useState("hidden");
+  const [showBoardsMenu, setShowBoardsMenu] = useState(false);
+  const [savedToBoard, setSavedToBoard] = useState(false);
   const navigate = useNavigate();
 
   // Loading current use from cached data
@@ -35,10 +38,15 @@ export default function PostCard({ post, handleEditModal }) {
     navigate(`profile/${post.author.username}`);
   };
 
-  // Handle saving post
-  const handleSavePin = (e) => {
+  // Handle Save to board
+  const handleBoardsMenu = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (showBoardsMenu) {
+      setShowBoardsMenu(false);
+    } else {
+      setShowBoardsMenu(true);
+    }
   };
 
   return (
@@ -47,7 +55,7 @@ export default function PostCard({ post, handleEditModal }) {
         onClick={() => {
           navigate(`/posts/${post.id}`);
         }}
-        className=" rounded-2xl relative w-full"
+        className=" rounded-2xl relative w-full "
         onMouseEnter={() => {
           setShowOverlay("");
         }}
@@ -64,18 +72,15 @@ export default function PostCard({ post, handleEditModal }) {
         <div
           className={` ${showOverlay} absolute w-full h-full  rounded-2xl z-30 top-0 left-0 flex flex-col p-3 pl-4  `}
         >
-          <div className="flex flex-col gap-1">
-            {/* <h1 className="  text-lg text-white font-bold pt-2 ">
-              {prune(capitalize(post.title), 50)}
-            </h1> */}
-            <div className="flex flex-row gap-3 pl-1 items-center">
-              <button
-                onClick={(e) => handleSavePin(e)}
-                className="ml-auto hover:bg-gray-500 py-2 px-4 rounded-full bg-gray-400 text-white font-semibold"
-              >
-                Save
-              </button>
-            </div>
+          <div className="flex flex-row pl-1 items-center justify-between px-2 w-full h-fit">
+            <button
+              onClick={(e) => handleBoardsMenu(e)}
+              className={`ml-auto hover:bg-gray-600 ${
+                savedToBoard ? "bg-gray-800" : ""
+              } py-2 px-4 rounded-full bg-gray-500 text-white font-semibold`}
+            >
+              {savedToBoard ? "Saved" : "Save"}
+            </button>
           </div>
           <div className="absolute bottom-3 flex flex-row items-center gap-2 justify-between w-full">
             {currentUser.id === post.author.id ? (
@@ -89,7 +94,7 @@ export default function PostCard({ post, handleEditModal }) {
                   icon={faPenToSquare}
                   size="2x"
                   color="white"
-                  className="z-50"
+                  className="z-40"
                 />
               </div>
             ) : (
@@ -97,6 +102,12 @@ export default function PostCard({ post, handleEditModal }) {
             )}
           </div>
         </div>
+        <SaveToBoard
+          postId={post.id}
+          showBoardsMenu={showBoardsMenu}
+          setShowBoardsMenu={setShowBoardsMenu}
+          setSavedToBoard={setSavedToBoard}
+        />
       </div>
       <div className="flex flex-row justify-between gap-1 w-full h-full">
         <div className="flex flex-col pl-2">
@@ -117,7 +128,8 @@ export default function PostCard({ post, handleEditModal }) {
               alt=""
             />
             <h1 className="text-gray-500 text-sm font-thin ">
-              {capitalize(post.author.username)}
+              {capitalize(post.author.firstName)}{" "}
+              {capitalize(post.author.lastName)}
             </h1>
           </div>
         </div>

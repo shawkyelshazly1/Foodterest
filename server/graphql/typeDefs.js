@@ -12,6 +12,7 @@ const typeDefs = gql`
     followersCount: Int!
     followingsCount: Int!
     followed: Boolean!
+    boards: [Board!]
   }
 
   type LoginResponse {
@@ -37,6 +38,15 @@ const typeDefs = gql`
     postId: ID!
   }
 
+  type Board {
+    id: ID!
+    title: String!
+    author: User!
+    posts: [Post!]
+    privacy: String!
+    postsCount: Int!
+  }
+
   type Query {
     hello: String!
     getPost(postId: ID!): Post!
@@ -45,6 +55,8 @@ const typeDefs = gql`
     getPostComments(postId: ID!): [Comment!]
     getUserProfile(username: String!): User!
     getUserPosts(username: String!): [Post!]
+    getUserBoards(userId: ID!): [Board!]
+    getBoard(boardId: ID!): Board!
   }
 
   type Mutation {
@@ -72,6 +84,10 @@ const typeDefs = gql`
     #Comment Mutation
     addComment(postId: ID!, content: String!): Post!
     deleteComment(commentId: ID!): Post!
+
+    #Board mutation
+    createBoard(title: String!, privacy: String!): Board!
+    addPostToBoard(boardId: ID!, postId: ID!): Board!
   }
 `;
 

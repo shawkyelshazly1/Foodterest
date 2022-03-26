@@ -39,3 +39,13 @@ export async function validateCommentInput(fields) {
     throw new UserInputError(error.details[0].message);
   }
 }
+
+// Validate comment input agains JOI comment Schema
+export async function validateBoardInput(fields) {
+  // Validate input agains Joi Schema
+  try {
+    const value = await validation.boardSchma.validateAsync(fields);
+  } catch (error) {
+    throw new UserInputError(error.details[0].message);
+  }
+}

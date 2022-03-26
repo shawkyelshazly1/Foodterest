@@ -11,6 +11,8 @@ exports.GET_POSTS = gql`
       author {
         id
         username
+        firstName
+        lastName
         avatar
       }
     }

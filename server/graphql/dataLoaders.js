@@ -3,13 +3,35 @@ import User from "../models/user.js";
 import Post from "../models/post.js";
 import Comment from "../models/comment.js";
 import PostLike from "../models/postLike.js";
+import Board from "../models/board.js";
+import _ from "lodash";
+import mongoose from "mongoose";
 
 // User loader
 export const userLoader = new DataLoader((usersIds) => {
   return User.find({ _id: { $in: usersIds } });
 });
 
-// Posts Loader
+// Public Boards Loader
+export const publicBoardLoader = new DataLoader(async (userIds) => {
+  const results = await Board.find({
+    $and: [{ userId: { $in: userIds } }, { privacy: "public" }],
+  });
+  return userIds.map((key) => _.find(results, { userId: key }));
+});
+
+// All Boards Loader
+export const boardLoader = new DataLoader(async (userIds) => {
+  let results = [];
+  results.push(
+    Board.find({
+      userId: { $in: userIds },
+    })
+  );
+  return results;
+});
+
+// Post Loader
 export const postLoader = new DataLoader((postsIds) => {
   return Post.find({ _id: { $in: postsIds } });
 });

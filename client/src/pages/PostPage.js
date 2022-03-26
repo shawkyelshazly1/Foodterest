@@ -89,8 +89,8 @@ export default function PostPage() {
   };
 
   return (
-    <div className="bg-[#ececee] w-full h-full flex justify-center items-start mt-5 max-h-fit mainContainer">
-      <button className="absolute left-5 top-5 hover:bg-[#dddddd] rounded-full py-2 px-3 flex items-center justify-center">
+    <div className="bg-[#ececee] w-full h-full flex justify-center items-start  max-h-fit mainContainer">
+      <button className="absolute left-5 top-14 hover:bg-[#dddddd] rounded-full py-2 px-3 flex items-center justify-center">
         <FontAwesomeIcon
           icon={faArrowLeft}
           size="2x"
@@ -101,7 +101,7 @@ export default function PostPage() {
       </button>
       <div
         ref={ref}
-        className=" bg-white w-3/5 min-h-[500px] max-h-fit flex flex-row justify-between gap-4 rounded-3xl mt-5"
+        className=" bg-white w-3/5 min-h-[500px] max-h-fit  flex flex-row justify-between gap-4 rounded-3xl mt-[4rem] custom-shadow-2"
       >
         {isLargeImage ? (
           <div className="w-full h-full">
@@ -152,7 +152,7 @@ export default function PostPage() {
 
             <button
               onClick={(e) => handleSavePin(e)}
-              className="ml-auto hover:bg-gray-500 py-2 px-4 rounded-full bg-gray-400 text-white font-semibold"
+              className="ml-auto hover:bg-gray-600 py-2 px-4 rounded-full bg-gray-500 text-white font-semibold"
             >
               Save
             </button>

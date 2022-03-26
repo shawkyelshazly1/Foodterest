@@ -10,10 +10,13 @@ import userResolver from "./user.js";
 import Following from "../../models/following.js";
 import Follower from "../../models/follower.js";
 import {
+  boardLoader,
   commentsCountLoader,
   postLikeLoader,
+  postLoader,
   userLoader,
 } from "../dataLoaders.js";
+import boardResolver from "./board.js";
 
 const resolvers = {
   Post: {
@@ -81,6 +84,10 @@ const resolvers = {
       });
       return followingCount;
     },
+
+    boards: async (parent, _, __) => {
+      return await boardLoader.load(parent._id);
+    },
   },
 
   Comment: {
@@ -88,6 +95,20 @@ const resolvers = {
     author: async (parent, __) => {
       const user = await User.findById(parent.authorId);
       return user;
+    },
+  },
+
+  Board: {
+    posts: async (parent, _) => {
+      return parent.posts.map(async (postId) => await postLoader.load(postId));
+    },
+
+    author: async (parent, _) => {
+      return await userLoader.load(parent.userId.toString());
+    },
+
+    postsCount: async (parent, _) => {
+      return parent.posts.length;
     },
   },
 
@@ -99,6 +120,7 @@ const resolvers = {
     ...postResolver.Query,
     ...userResolver.Query,
     ...commentResolver.Query,
+    ...boardResolver.Query,
   },
 
   Mutation: {
@@ -106,6 +128,7 @@ const resolvers = {
     ...postResolver.Mutation,
     ...commentResolver.Mutation,
     ...userResolver.Mutation,
+    ...boardResolver.Mutation,
   },
 };
 

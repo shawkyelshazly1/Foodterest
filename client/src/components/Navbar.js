@@ -13,10 +13,10 @@ export default function Navbar() {
 
   if (loading) return null;
   return (
-    <div className="flex flex-row h-[70px] px-5 my-1 justify-between items-center gap-2">
+    <div className="flex flex-row min-h-[70px] w-full px-5 py-3 justify-between items-center gap-2 navbar-shadow fixed z-50 bg-white">
       <Link to="/">
         <img
-          src="https://res.cloudinary.com/dwufx31ox/image/upload/v1647960558/Foodterest/logo_transparent_kvapzz.png"
+          src="https://res.cloudinary.com/dwufx31ox/image/upload/q_auto,f_auto/v1648284906/Foodterest/logo_transparent_thisob.png"
           alt="logo"
           className="w-[80px] h-[60px]"
         />

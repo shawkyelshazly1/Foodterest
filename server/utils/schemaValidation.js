@@ -63,6 +63,17 @@ const validationSchemas = {
         "Comment shouldn't be empty, and should be within 1 & unlimited chars."
       ),
   }),
+
+  boardSchma: Joi.object({
+    title: Joi.string()
+      .required()
+      .min(1)
+      .trim()
+      .message(
+        "title shouldn't be empty, and should be within 1 & unlimited chars"
+      ),
+    privacy: Joi.string().required().valid("private", "public"),
+  }),
 };
 
 export default validationSchemas;

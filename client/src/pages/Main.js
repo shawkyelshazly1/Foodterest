@@ -48,7 +48,7 @@ export default function Main() {
     <div className="relative">
       <Masonry
         breakpointCols={breakpointColumnsObj}
-        className="flex masonry-grid-style"
+        className="flex masonry-grid-style mt-1"
         columnClassName="masonry-grid_column-style"
       >
         {data.getPosts.map((post) => (

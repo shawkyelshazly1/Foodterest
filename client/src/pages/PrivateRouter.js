@@ -24,7 +24,7 @@ export default function PrivateRouter({ children }) {
     return (
       <div className="flex flex-1 flex-col w-full">
         <Navbar />
-        <div className=" flex-1 items-center justify-center flex relative">
+        <div className=" flex-1 items-center justify-center flex relative mt-[48px]">
           {children}
           <AddPostBtnComponent />
         </div>

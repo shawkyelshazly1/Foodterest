@@ -11,6 +11,7 @@ import PostPage from "./pages/PostPage";
 import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
+import BoardPage from "./pages/BoardPage";
 
 export default function RoutesProvider() {
   return (
@@ -28,6 +29,7 @@ export default function RoutesProvider() {
                     <Route path="/posts/:postId" element={<PostPage />} />
                     <Route path="/profile/:username" element={<Profile />} />
                     <Route path="/create-post" element={<CreatePost />} />
+                    <Route path="/boards/:boardId" element={<BoardPage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </PrivateRouter>

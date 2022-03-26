@@ -49,6 +49,11 @@ exports.CURRENT_USER = gql`
       email
       username
       avatar
+      boards {
+        title
+        id
+        postsCount
+      }
     }
   }
 `;
