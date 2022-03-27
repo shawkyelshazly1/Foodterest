@@ -1,7 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
-import { GET_POST, LIKE_POST } from "../graphql/posts";
+import {
+  DELETE_POST,
+  GET_POST,
+  GET_USER_POSTS,
+  LIKE_POST,
+} from "../graphql/posts";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingComponent from "../components/reusable/LoadingComponent";
 import { capitalize } from "underscore.string";
@@ -45,6 +50,16 @@ export default function PostPage() {
     },
   });
 
+  // handle delete post mutation
+  const [deletePost] = useMutation(DELETE_POST, {
+    variables: { postId },
+    onCompleted(data) {
+      if (data.deletePost.id) {
+        navigate("/");
+      }
+    },
+  });
+
   // Use effect to handle clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -80,12 +95,6 @@ export default function PostPage() {
     } else {
       setIsLargeImage(false);
     }
-  };
-
-  // Handle saving post
-  const handleSavePin = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
   };
 
   return (
@@ -149,13 +158,14 @@ export default function PostPage() {
                 }}
               />
             )}
-
-            <button
-              onClick={(e) => handleSavePin(e)}
-              className="ml-auto hover:bg-gray-600 py-2 px-4 rounded-full bg-gray-500 text-white font-semibold"
-            >
-              Save
-            </button>
+            {currentUser.id === data.getPost.author.id ? (
+              <button
+                onClick={(e) => deletePost()}
+                className="ml-auto hover:bg-red-600 py-2 px-4 rounded-full bg-red-500 text-white font-semibold"
+              >
+                Delete
+              </button>
+            ) : null}
           </div>
           <h1 className="text-5xl font-extrabold  break-words">
             {capitalize(data.getPost.title)}

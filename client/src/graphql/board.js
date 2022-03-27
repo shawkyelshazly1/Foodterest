@@ -53,3 +53,13 @@ exports.GET_BOARD = gql`
     }
   }
 `;
+
+exports.CREATE_BOARD = gql`
+  mutation CreateBoard($title: String!, $privacy: String!) {
+    createBoard(title: $title, privacy: $privacy) {
+      id
+      title
+      postsCount
+    }
+  }
+`;

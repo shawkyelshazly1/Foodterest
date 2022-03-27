@@ -9,6 +9,7 @@ export default function SavedBoardsComponent({ userId }) {
   const navigate = useNavigate();
   const { data, loading, error } = useQuery(GET_USER_BOARDS, {
     variables: { userId },
+    notifyOnNetworkStatusChange: true,
   });
   if (loading || !data)
     return (
@@ -16,12 +17,12 @@ export default function SavedBoardsComponent({ userId }) {
         <LoadingComponent />
       </div>
     );
-
   return (
     <div className="w-full items-center justify-center flex pt-4 cursor-pointer">
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 mt-5 w-10/12  ">
         {data.getUserBoards.map((board) => (
           <div
+            key={board.id}
             className="w-full flex flex-col "
             onClick={() => {
               navigate(`/boards/${board.id}`);

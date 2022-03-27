@@ -95,3 +95,11 @@ exports.GET_USER_POSTS = gql`
     }
   }
 `;
+
+exports.DELETE_POST = gql`
+  mutation DeletePost($postId: ID!) {
+    deletePost(postId: $postId) {
+      id
+    }
+  }
+`;

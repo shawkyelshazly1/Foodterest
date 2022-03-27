@@ -19,6 +19,9 @@ export default function BoardPage() {
     fetchPolicy: "cache-only",
   });
 
+  // handle delete board
+  const handleDeleteBoard = () => {};
+
   const { data, loading, error } = useQuery(GET_BOARD, {
     variables: { boardId },
   });
@@ -38,7 +41,7 @@ export default function BoardPage() {
 
   return (
     <div className="relative w-full h-full flex flex-col mt-28">
-      {data.getBoard.author.id !== currentUser.id ? (
+      {data.getBoard.author.id === currentUser.id ? (
         <div className="flex flex-col w-full items-center gap-2">
           <h1 className="text-black text-3xl font-semibold">
             {data.getBoard.title}

@@ -64,7 +64,8 @@ const boardResolver = {
       if (boardFound) {
         throw new UserInputError("Board Exists", { boardId: boardFound._id });
       }
-
+      publicBoardLoader.clear(currentUserId);
+      boardLoader.clear(currentUserId);
       const newBoard = await new Board({
         title,
         userId: currentUserId,
