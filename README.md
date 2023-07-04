@@ -2,6 +2,8 @@
 
 ##### _Your favourite hub for food recipes_
 
+[Demo](https://foodterest.elshazlii.com/)
+
 #
 
 ##
