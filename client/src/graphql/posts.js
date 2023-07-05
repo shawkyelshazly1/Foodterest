@@ -1,105 +1,115 @@
 const { gql } = require("@apollo/client");
 
-exports.GET_POSTS = gql`
-  query GetPosts {
-    getPosts {
-      title
-      id
-      image
-      likesCount
-      commentsCount
-      author {
-        id
-        username
-        firstName
-        lastName
-        avatar
-      }
-    }
-  }
+const GET_POSTS = gql`
+	query GetPosts {
+		getPosts {
+			title
+			id
+			image
+			likesCount
+			commentsCount
+			author {
+				id
+				username
+				firstName
+				lastName
+				avatar
+			}
+		}
+	}
 `;
 
-exports.LIKE_POST = gql`
-  mutation LikePost($postId: ID!) {
-    likePost(postId: $postId) {
-      id
-      liked
-      likesCount
-    }
-  }
+const LIKE_POST = gql`
+	mutation LikePost($postId: ID!) {
+		likePost(postId: $postId) {
+			id
+			liked
+			likesCount
+		}
+	}
 `;
 
-exports.CREATE_POST = gql`
-  mutation CreatePost($image: String!, $title: String!) {
-    createPost(image: $image, title: $title) {
-      title
-      id
-      image
-      liked
-      likesCount
-      commentsCount
-      author {
-        id
-        username
-        avatar
-      }
-    }
-  }
+const CREATE_POST = gql`
+	mutation CreatePost($image: String!, $title: String!) {
+		createPost(image: $image, title: $title) {
+			title
+			id
+			image
+			liked
+			likesCount
+			commentsCount
+			author {
+				id
+				username
+				avatar
+			}
+		}
+	}
 `;
 
-exports.GET_POST = gql`
-  query GetPost($postId: ID!) {
-    getPost(postId: $postId) {
-      id
-      title
-      image
-      liked
-      author {
-        id
-        avatar
-        firstName
-        username
-        lastName
-        followed
-        followersCount
-      }
-    }
-  }
+const GET_POST = gql`
+	query GetPost($postId: ID!) {
+		getPost(postId: $postId) {
+			id
+			title
+			image
+			liked
+			author {
+				id
+				avatar
+				firstName
+				username
+				lastName
+				followed
+				followersCount
+			}
+		}
+	}
 `;
 
-exports.UPDATE_POST = gql`
-  mutation UpdatePost($postId: ID!, $title: String!) {
-    updatePost(postId: $postId, title: $title) {
-      id
-      title
-    }
-  }
+const UPDATE_POST = gql`
+	mutation UpdatePost($postId: ID!, $title: String!) {
+		updatePost(postId: $postId, title: $title) {
+			id
+			title
+		}
+	}
 `;
 
-exports.GET_USER_POSTS = gql`
-  query GetUserPosts($username: String!) {
-    getUserPosts(username: $username) {
-      id
-      title
-      image
-      likesCount
-      commentsCount
-      liked
-      author {
-        username
-        firstName
-        avatar
-        lastName
-        id
-      }
-    }
-  }
+const GET_USER_POSTS = gql`
+	query GetUserPosts($username: String!) {
+		getUserPosts(username: $username) {
+			id
+			title
+			image
+			likesCount
+			commentsCount
+			liked
+			author {
+				username
+				firstName
+				avatar
+				lastName
+				id
+			}
+		}
+	}
 `;
 
-exports.DELETE_POST = gql`
-  mutation DeletePost($postId: ID!) {
-    deletePost(postId: $postId) {
-      id
-    }
-  }
+const DELETE_POST = gql`
+	mutation DeletePost($postId: ID!) {
+		deletePost(postId: $postId) {
+			id
+		}
+	}
 `;
+
+export {
+	CREATE_POST,
+	DELETE_POST,
+	GET_POST,
+	GET_POSTS,
+	GET_USER_POSTS,
+	LIKE_POST,
+	UPDATE_POST,
+};

@@ -1,6 +1,6 @@
 const { gql } = require("@apollo/client");
 
-exports.ADD_POST_TO_BOARD = gql`
+const ADD_POST_TO_BOARD = gql`
 	mutation AddPostToBoard($boardId: ID!, $postId: ID!) {
 		addPostToBoard(boardId: $boardId, postId: $postId) {
 			id
@@ -12,7 +12,7 @@ exports.ADD_POST_TO_BOARD = gql`
 	}
 `;
 
-exports.GET_USER_BOARDS = gql`
+const GET_USER_BOARDS = gql`
 	query GetUserBoards($userId: ID!) {
 		getUserBoards(userId: $userId) {
 			id
@@ -22,7 +22,7 @@ exports.GET_USER_BOARDS = gql`
 	}
 `;
 
-exports.GET_BOARD = gql`
+const GET_BOARD = gql`
 	query GetBoard($boardId: ID!) {
 		getBoard(boardId: $boardId) {
 			id
@@ -54,7 +54,7 @@ exports.GET_BOARD = gql`
 	}
 `;
 
-exports.CREATE_BOARD = gql`
+const CREATE_BOARD = gql`
 	mutation CreateBoard($title: String!, $privacy: String!) {
 		createBoard(title: $title, privacy: $privacy) {
 			id
@@ -63,3 +63,5 @@ exports.CREATE_BOARD = gql`
 		}
 	}
 `;
+
+export { CREATE_BOARD, ADD_POST_TO_BOARD, GET_BOARD, GET_USER_BOARDS };
