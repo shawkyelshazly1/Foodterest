@@ -7,10 +7,15 @@ function App() {
 
 	// Fetching access token on page reload/refresh using the refresh token otherwise will be logged out
 	useEffect(() => {
-		fetch("http://localhost:5000/refresh_token", {
-			method: "POST",
-			credentials: "include",
-		}).then(async (res) => {
+		fetch(
+			process.env.NODE_ENV === "production"
+				? "https://foodterest-api.onrender.com/refresh_token"
+				: "http://localhost:5000/refresh_token",
+			{
+				method: "POST",
+				credentials: "include",
+			}
+		).then(async (res) => {
 			const { accessToken } = await res.json();
 			setAccessToken(accessToken);
 			setLoading(false);
