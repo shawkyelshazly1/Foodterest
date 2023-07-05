@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import {
 	CURRENT_USER,
 	FOLLOW_AND_UNFOLLOW_USER,
 	LOAD_USER_PROFILE,
 } from "../graphql/user";
-import { GET_USER_POSTS } from "../graphql/posts";
+
 import { capitalize } from "underscore.string";
 import LoadingComponent from "../components/reusable/LoadingComponent";
 import numeral from "numeral";
@@ -14,7 +14,7 @@ import CreatedPostsComponent from "../components/CreatedPostsComponent";
 import SavedBoardsComponent from "../components/SavedBoardsComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { CREATE_BOARD, GET_USER_BOARDS } from "../graphql/board";
+import { CREATE_BOARD } from "../graphql/board";
 
 export default function Profile() {
 	const [selectedPanel, setSelectedPanel] = useState("created");
@@ -39,7 +39,7 @@ export default function Profile() {
 	}, [ref]);
 
 	// add board mutation
-	const [addBoard, { client }] = useMutation(CREATE_BOARD, {
+	const [addBoard] = useMutation(CREATE_BOARD, {
 		onCompleted(data) {
 			if (data.createBoard.id) {
 				navigate(`/boards/${data.createBoard.id}`);
@@ -70,13 +70,10 @@ export default function Profile() {
 	});
 
 	// Follow & unfollow user Mutation
-	const [
-		followUser,
-		{ data: followData, loading: followLoading, error: followError },
-	] = useMutation(FOLLOW_AND_UNFOLLOW_USER);
+	const [followUser] = useMutation(FOLLOW_AND_UNFOLLOW_USER);
 
 	// Loading user profile query
-	const { data, loading, error } = useQuery(LOAD_USER_PROFILE, {
+	const { data, loading } = useQuery(LOAD_USER_PROFILE, {
 		variables: { username },
 		onCompleted({ getUserProfile }) {
 			if (!getUserProfile.id) {

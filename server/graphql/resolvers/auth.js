@@ -1,100 +1,101 @@
 import User from "../../models/user.js";
 import { UserInputError, AuthenticationError } from "apollo-server-express";
-import { hash, compare } from "bcrypt";
+import bcryptjs from "bcryptjs";
 import validation from "../../utils/schemaValidation.js";
 import {
-  validateLoginInput,
-  validateRegisterInput,
+	validateLoginInput,
+	validateRegisterInput,
 } from "../../utils/validation.js";
 import {
-  generateAccessToken,
-  generateRefreshToken,
-  sendRefreshToken,
+	generateAccessToken,
+	generateRefreshToken,
+	sendRefreshToken,
 } from "../../utils/auth.js";
 
 const authResolver = {
-  Mutation: {
-    // User login resolver
-    async login(_, { email, password }, { res }) {
-      // Validate input agains Joi Schema
-      await validateLoginInput({ email, password });
+	Mutation: {
+		// User login resolver
+		async login(_, { email, password }, { res }) {
+			// Validate input agains Joi Schema
+			await validateLoginInput({ email, password });
 
-      // looking for user in DB
-      const user = await User.findOne({ email });
+			// looking for user in DB
+			const user = await User.findOne({ email });
 
-      // If user not found
-      if (!user) {
-        throw new UserInputError("Email not found!");
-      }
+			// If user not found
+			if (!user) {
+				throw new UserInputError("Email not found!");
+			}
 
-      // Validate encrypted password
-      const isValid = await compare(password, user.password);
-      if (!isValid) {
-        throw new UserInputError("Incorrect password!");
-      }
+			// Validate encrypted password
+			const isValid = await bcryptjs.compare(password, user.password);
 
-      await sendRefreshToken(res, await generateRefreshToken(user));
+			if (!isValid) {
+				throw new UserInputError("Incorrect password!");
+			}
 
-      return {
-        accessToken: await generateAccessToken(user),
-        user,
-      };
-    },
+			await sendRefreshToken(res, await generateRefreshToken(user));
 
-    // User Register resolver
-    async register(
-      _,
-      { firstName, lastName, username, email, password, confirmPassword }
-    ) {
-      // Validate the register input against the Joi schema
-      await validateRegisterInput({
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-        confirmPassword,
-      });
+			return {
+				accessToken: await generateAccessToken(user),
+				user,
+			};
+		},
 
-      // checking if user exists already in DB or not
+		// User Register resolver
+		async register(
+			_,
+			{ firstName, lastName, username, email, password, confirmPassword }
+		) {
+			// Validate the register input against the Joi schema
+			await validateRegisterInput({
+				firstName,
+				lastName,
+				username,
+				email,
+				password,
+				confirmPassword,
+			});
 
-      const userFoundEmail = await User.findOne({ email });
+			// checking if user exists already in DB or not
 
-      if (userFoundEmail) {
-        throw new UserInputError("Email is taken!", {
-          field: "email",
-        });
-      } else {
-        const userFoundUsername = await User.findOne({ username });
-        if (userFoundUsername) {
-          throw new UserInputError(" Username is taken!", {
-            field: "username",
-          });
-        }
-      }
+			const userFoundEmail = await User.findOne({ email });
 
-      // Hashing password and creating/saving new user in DB
-      password = await hash(password, 12);
+			if (userFoundEmail) {
+				throw new UserInputError("Email is taken!", {
+					field: "email",
+				});
+			} else {
+				const userFoundUsername = await User.findOne({ username });
+				if (userFoundUsername) {
+					throw new UserInputError(" Username is taken!", {
+						field: "username",
+					});
+				}
+			}
 
-      const newUser = await new User({
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-      });
+			// Hashing password and creating/saving new user in DB
+			password = await bcryptjs.hash(password, 12);
 
-      await newUser.save();
+			const newUser = await new User({
+				firstName,
+				lastName,
+				username,
+				email,
+				password,
+			});
 
-      return true;
-    },
+			await newUser.save();
 
-    // User logout Mutation
-    async logout(_, __, { req, res }) {
-      sendRefreshToken(res, "");
-      return true;
-    },
-  },
+			return true;
+		},
+
+		// User logout Mutation
+		async logout(_, __, { req, res }) {
+			sendRefreshToken(res, "");
+			return true;
+		},
+	},
 };
 
 export default authResolver;

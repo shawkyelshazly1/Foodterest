@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { REGISTER_USER } from "../graphql/user";
 import FormErrors from "./reusable/FormErrors";
 import LoadingComponent from "./reusable/LoadingComponent";
@@ -10,7 +9,7 @@ export default function Signup({ setComponent, setSuccessMessage }) {
   const [errors, setErrors] = useState(null);
 
   // GraphQL Mutation to register user
-  const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER, {
+  const [registerUser, { data, loading }] = useMutation(REGISTER_USER, {
     onError(error) {
       setErrors(error.graphQLErrors);
     },

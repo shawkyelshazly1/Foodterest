@@ -41,7 +41,7 @@ const refreshLink = new TokenRefreshLink({
 
   // Fetch New Access Token
   fetchAccessToken: () => {
-    return fetch("http://localhost:4000/refresh_token", {
+    return fetch("http://localhost:5000/refresh_token", {
       method: "POST",
       credentials: "include",
     });
@@ -61,7 +61,7 @@ const refreshLink = new TokenRefreshLink({
 
 // Setup the basic http link for connection
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "http://localhost:5000/graphql",
   credentials: "include",
 });
 

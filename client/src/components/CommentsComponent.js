@@ -20,7 +20,7 @@ export default function CommentsComponent({ postId }) {
   const {
     data: postComments,
     loading: loadingComments,
-    error: errorComments,
+    
   } = useQuery(GET_POST_COMMENTS, {
     variables: { postId },
     onError(error) {

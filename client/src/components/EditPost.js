@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { capitalize } from "underscore.string";
+import React, { useState } from "react";
+
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useMutation } from "@apollo/client";
 import { UPDATE_POST } from "../graphql/posts";
@@ -8,7 +8,7 @@ import { UPDATE_POST } from "../graphql/posts";
 export default function EditPost({ showModal, postToEdit, handleEditModal }) {
   const [isLargeImage, setIsLargeImage] = useState(false);
 
-  const [updatePost, { data, loading, error }] = useMutation(UPDATE_POST, {
+  const [updatePost] = useMutation(UPDATE_POST, {
     
   });
 

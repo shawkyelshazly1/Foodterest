@@ -7,7 +7,7 @@ import NotificationIcon from "./reusable/NotificationIcon";
 import UserComponent from "./UserComponent";
 
 export default function Navbar() {
-  const { data, loading, error } = useQuery(CURRENT_USER, {
+  const { data, loading } = useQuery(CURRENT_USER, {
     notifyOnNetworkStatusChange: true,
   });
 

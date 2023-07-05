@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import LoadingComponent from "../components/reusable/LoadingComponent";
+
 import { CURRENT_USER } from "../graphql/user";
 import AuthPage from "./AuthPage";
 import { useLocation } from "react-router-dom";
