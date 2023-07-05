@@ -24,7 +24,7 @@ dotenv.config();
 	// Setting Cors & CookieParser
 	app.use(
 		cors({
-			origin: "http://localhost:3000",
+			origin: ["http://localhost:3000", "https://foodterest.onrender.com"],
 			credentials: true,
 		})
 	);
