@@ -42,9 +42,8 @@ const refreshLink = new TokenRefreshLink({
 	// Fetch New Access Token
 	fetchAccessToken: () => {
 		return fetch(
-			process.env.NODE_ENV === "production"
-				? "https://foodterest-api.onrender.com/refresh_token"
-				: "http://localhost:5000/refresh_token",
+			`${process.env.REACT_APP_API_URL}/refresh_token`,
+
 			{
 				method: "POST",
 				credentials: "include",
@@ -66,10 +65,7 @@ const refreshLink = new TokenRefreshLink({
 
 // Setup the basic http link for connection
 const httpLink = createHttpLink({
-	uri:
-		process.env.NODE_ENV === "production"
-			? "https://foodterest-api.onrender.com/graphql"
-			: "http://localhost:5000/graphql",
+	uri: `${process.env.REACT_APP_API_URL}/graphql`,
 	credentials: "include",
 });
 

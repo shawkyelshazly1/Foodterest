@@ -24,7 +24,7 @@ dotenv.config();
 	// Setting Cors & CookieParser
 	app.use(
 		cors({
-			origin: ["http://localhost:3000", "https://foodterest.onrender.com"],
+			origin: [process.env.APP_URL],
 			credentials: true,
 			origin: true,
 		})
@@ -63,9 +63,7 @@ dotenv.config();
 		.then((_) => {
 			consola.success(`Connection to MongoDB Success.`);
 			app.listen(process.env.PORT, () => {
-				consola.success(
-					`Server started on : http://localhost:${process.env.PORT}`
-				);
+				consola.success(`Server started on : Port: ${process.env.PORT}`);
 				consola.success(
 					`Graphql playground connected & started on : http://localhost:${process.env.PORT}/graphql`
 				);
